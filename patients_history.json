@@ -1,0 +1,23 @@
+[
+    {
+        "patient_id": "P12345",
+        "name": "John Doe",
+        "age": 55,
+        "sex": "Male",
+        "history": ["Type 2 Diabetes", "High Cholesterol"],
+        "medications": ["Metformin", "Atorvastatin"],
+        "allergies": ["Penicillin"],
+        "vitals": {
+            "bp": "150/95", 
+            "hr": 110, 
+            "spo2": 92
+        },
+        "lab_results": {
+            "ecg": "Normal", 
+            "cholesterol": 180, 
+            "hba1c": 8.2
+        },
+        "clinical_notes": "Patient had mild chest pain 6 months ago; no hospitalization."
+    }
+    
+]

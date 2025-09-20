@@ -1,0 +1,45 @@
+[
+    {
+        "patient_id": "P12345",
+        "symptoms": "fatigue, headache, nausea",
+        "vitals": {
+            "bp": "140/90",
+            "hr": 95,
+            "spo2": 95
+        },
+        "lab_results": {
+            "ecg": "Normal",
+            "troponin": 100,
+            "cholesterol": 220
+        }
+    },
+    {
+        "patient_id": "P1234511111111",
+        "symptoms": "headace",
+        "vitals": {
+            "bp": "200",
+            "hr": "40",
+            "spo2": "2000"
+        },
+        "lab_results": {
+            "ecg": "100",
+            "troponin": "100",
+            "cholesterol": "100"
+        }
+    },
+    {
+        "patient_id": "12",
+        "symptoms": "headache",
+        "vitals": {
+            "bp": "120",
+            "hr": "72",
+            "spo2": "98"
+        },
+        "lab_results": {
+            "ecg": "",
+            "troponin": "",
+            "cholesterol": ""
+        },
+        "timestamp": "2025-09-20T18:24:47.256299"
+    }
+]

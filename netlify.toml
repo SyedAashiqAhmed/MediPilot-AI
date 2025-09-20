@@ -1,0 +1,15 @@
+[build]
+  command = "echo 'No build step required for Flask app'"
+  publish = "."
+
+[build.environment]
+  PYTHON_VERSION = "3.9"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+
+[context.production.environment]
+  GEMINI_API_KEY = ""

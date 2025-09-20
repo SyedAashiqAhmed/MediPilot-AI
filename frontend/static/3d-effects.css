@@ -1,0 +1,481 @@
+/* ===== ADVANCED 3D EFFECTS & HOLOGRAPHIC CSS ===== */
+
+/* 3D Transform Utilities */
+.transform-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.perspective-1000 { perspective: 1000px; }
+.perspective-1500 { perspective: 1500px; }
+.perspective-2000 { perspective: 2000px; }
+
+/* 3D Rotations */
+.rotate-x-12 { transform: rotateX(12deg); }
+.rotate-x-45 { transform: rotateX(45deg); }
+.rotate-y-12 { transform: rotateY(12deg); }
+.rotate-y-45 { transform: rotateY(45deg); }
+.rotate-z-12 { transform: rotateZ(12deg); }
+
+/* 3D Translations */
+.translate-z-0 { transform: translateZ(0); }
+.translate-z-10 { transform: translateZ(10px); }
+.translate-z-20 { transform: translateZ(20px); }
+.translate-z-50 { transform: translateZ(50px); }
+
+/* 3D Card Effects */
+.card-3d {
+    transform-style: preserve-3d;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+    position: relative;
+}
+
+.card-3d:hover {
+    transform: rotateY(10deg) rotateX(10deg) translateZ(20px);
+}
+
+.card-3d::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    border-radius: inherit;
+    transform: translateZ(-1px);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.card-3d:hover::before {
+    opacity: 1;
+}
+
+/* Holographic Effects */
+.holographic {
+    position: relative;
+    background: linear-gradient(45deg, 
+        #ff0080, #ff8c00, #40e0d0, #ff0080, 
+        #ff8c00, #40e0d0, #ff0080);
+    background-size: 400% 400%;
+    animation: holographic-shift 3s ease-in-out infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@keyframes holographic-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.holographic-border {
+    position: relative;
+    border: 2px solid transparent;
+    background: linear-gradient(45deg, #ff0080, #ff8c00, #40e0d0, #ff0080) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+}
+
+/* Neon Glow Effects */
+.neon-blue {
+    color: #00ffff;
+    text-shadow: 
+        0 0 5px #00ffff,
+        0 0 10px #00ffff,
+        0 0 15px #00ffff,
+        0 0 20px #00ffff,
+        0 0 35px #00ffff,
+        0 0 40px #00ffff;
+    animation: neon-flicker 2s infinite alternate;
+}
+
+.neon-pink {
+    color: #ff0080;
+    text-shadow: 
+        0 0 5px #ff0080,
+        0 0 10px #ff0080,
+        0 0 15px #ff0080,
+        0 0 20px #ff0080,
+        0 0 35px #ff0080,
+        0 0 40px #ff0080;
+    animation: neon-flicker 2.5s infinite alternate;
+}
+
+.neon-green {
+    color: #39ff14;
+    text-shadow: 
+        0 0 5px #39ff14,
+        0 0 10px #39ff14,
+        0 0 15px #39ff14,
+        0 0 20px #39ff14,
+        0 0 35px #39ff14,
+        0 0 40px #39ff14;
+    animation: neon-flicker 1.8s infinite alternate;
+}
+
+@keyframes neon-flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+/* 3D Floating Cards */
+.floating-3d {
+    transform-style: preserve-3d;
+    animation: float-3d 6s ease-in-out infinite;
+}
+
+@keyframes float-3d {
+    0%, 100% { 
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg); 
+    }
+    33% { 
+        transform: translateY(-20px) rotateX(5deg) rotateY(5deg); 
+    }
+    66% { 
+        transform: translateY(-10px) rotateX(-5deg) rotateY(-5deg); 
+    }
+}
+
+/* Isometric 3D Cards */
+.isometric-card {
+    transform: rotateX(51deg) rotateZ(43deg);
+    transform-style: preserve-3d;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.isometric-card:hover {
+    transform: rotateX(51deg) rotateZ(43deg) translateZ(50px);
+}
+
+/* 3D Cube Animation */
+.cube-3d {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: cube-rotate 10s infinite linear;
+}
+
+.cube-face {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.cube-face.front { transform: rotateY(0deg) translateZ(100px); }
+.cube-face.back { transform: rotateY(180deg) translateZ(100px); }
+.cube-face.right { transform: rotateY(90deg) translateZ(100px); }
+.cube-face.left { transform: rotateY(-90deg) translateZ(100px); }
+.cube-face.top { transform: rotateX(90deg) translateZ(100px); }
+.cube-face.bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+@keyframes cube-rotate {
+    0% { transform: rotateX(0deg) rotateY(0deg); }
+    100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+/* Parallax 3D Layers */
+.parallax-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.parallax-layer-1 { transform: translateZ(0px); }
+.parallax-layer-2 { transform: translateZ(-50px) scale(1.05); }
+.parallax-layer-3 { transform: translateZ(-100px) scale(1.1); }
+.parallax-layer-4 { transform: translateZ(-150px) scale(1.15); }
+
+/* 3D Button Effects */
+.btn-3d {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    box-shadow: 
+        0 10px 20px rgba(0, 0, 0, 0.2),
+        0 6px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-3d:hover {
+    transform: translateY(-5px) rotateX(15deg);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 15px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-3d:active {
+    transform: translateY(-2px) rotateX(5deg);
+}
+
+/* Liquid Morphing Effects */
+.liquid-morph {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    animation: liquid-morph-animation 8s ease-in-out infinite;
+    background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+    background-size: 400% 400%;
+}
+
+@keyframes liquid-morph-animation {
+    0%, 100% { 
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        background-position: 0% 50%;
+    }
+    25% { 
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+        background-position: 100% 50%;
+    }
+    50% { 
+        border-radius: 70% 30% 40% 60% / 40% 70% 60% 50%;
+        background-position: 50% 100%;
+    }
+    75% { 
+        border-radius: 40% 70% 60% 30% / 70% 50% 40% 70%;
+        background-position: 50% 0%;
+    }
+}
+
+/* Holographic Card */
+.holo-card {
+    position: relative;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+.holo-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.4), 
+        transparent);
+    transition: left 0.5s;
+}
+
+.holo-card:hover::before {
+    left: 100%;
+}
+
+.holo-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, 
+        transparent 30%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.holo-card:hover::after {
+    opacity: 1;
+}
+
+/* DNA Helix Animation */
+.dna-helix {
+    position: relative;
+    width: 100px;
+    height: 300px;
+    margin: 0 auto;
+}
+
+.dna-strand {
+    position: absolute;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #00ffff, #ff0080);
+    border-radius: 2px;
+    animation: dna-rotate 4s linear infinite;
+}
+
+.dna-strand:nth-child(1) {
+    left: 20px;
+    animation-delay: 0s;
+}
+
+.dna-strand:nth-child(2) {
+    right: 20px;
+    animation-delay: 2s;
+}
+
+@keyframes dna-rotate {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+}
+
+/* Quantum Particle Effect */
+.quantum-particles {
+    position: relative;
+    overflow: hidden;
+}
+
+.quantum-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: radial-gradient(circle, #00ffff, transparent);
+    border-radius: 50%;
+    animation: quantum-float 8s linear infinite;
+}
+
+@keyframes quantum-float {
+    0% {
+        transform: translateY(100vh) translateX(0) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) translateX(100px) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Cyberpunk Grid */
+.cyber-grid {
+    background-image: 
+        linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: cyber-grid-move 20s linear infinite;
+}
+
+@keyframes cyber-grid-move {
+    0% { background-position: 0 0; }
+    100% { background-position: 50px 50px; }
+}
+
+/* Glitch Effect */
+.glitch {
+    position: relative;
+    animation: glitch-animation 2s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    animation: glitch-animation-1 0.5s infinite;
+    color: #ff0080;
+    z-index: -1;
+}
+
+.glitch::after {
+    animation: glitch-animation-2 0.5s infinite;
+    color: #00ffff;
+    z-index: -2;
+}
+
+@keyframes glitch-animation {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+}
+
+@keyframes glitch-animation-1 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+}
+
+@keyframes glitch-animation-2 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(2px, -2px); }
+    40% { transform: translate(2px, 2px); }
+    60% { transform: translate(-2px, -2px); }
+    80% { transform: translate(-2px, 2px); }
+}
+
+/* Matrix Rain Effect */
+.matrix-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.matrix-column {
+    position: absolute;
+    top: -100%;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    animation: matrix-fall 10s linear infinite;
+}
+
+@keyframes matrix-fall {
+    0% { top: -100%; opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+/* Responsive 3D Effects */
+@media (max-width: 768px) {
+    .card-3d:hover {
+        transform: rotateY(5deg) rotateX(5deg) translateZ(10px);
+    }
+    
+    .floating-3d {
+        animation-duration: 4s;
+    }
+    
+    .cube-3d {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .cube-face {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .floating-3d,
+    .cube-3d,
+    .liquid-morph,
+    .dna-strand,
+    .quantum-particle,
+    .cyber-grid,
+    .glitch,
+    .matrix-column {
+        animation: none;
+    }
+    
+    .card-3d:hover {
+        transform: translateZ(5px);
+    }
+}

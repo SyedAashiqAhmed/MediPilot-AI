@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClinicalAI - Advanced Medical Intelligence Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='modern-framework.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='animations.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='3d-effects.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --medical-blue: #0066cc;
+            --medical-green: #00cc66;
+            --medical-red: #cc0066;
+            --medical-cyan: #00cccc;
+            --medical-purple: #6600cc;
+            --medical-gold: #ffcc00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0a 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Medical Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 204, 102, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 204, 102, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: medical-grid-pulse 4s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        /* DNA Helix Animation */
+        .dna-helix {
+            position: fixed;
+            top: 0;
+            left: 10%;
+            width: 100px;
+            height: 100vh;
+            z-index: 2;
+        }
+
+        .dna-strand {
+            position: absolute;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--medical-cyan), var(--medical-blue));
+            border-radius: 2px;
+            animation: dna-rotate 8s linear infinite;
+        }
+
+        .dna-strand:nth-child(2) {
+            left: 50px;
+            animation-delay: -4s;
+        }
+
+        .dna-base {
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background: var(--medical-green);
+            left: 0;
+            animation: dna-base-glow 2s ease-in-out infinite alternate;
+        }
+
+        /* Medical Robot 3D */
+        .medical-robot {
+            position: fixed;
+            right: 5%;
+            top: 20%;
+            width: 200px;
+            height: 300px;
+            z-index: 3;
+            transform-style: preserve-3d;
+            animation: robot-float 6s ease-in-out infinite;
+        }
+
+        .robot-body {
+            position: absolute;
+            width: 120px;
+            height: 160px;
+            background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+            border-radius: 20px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotateY(15deg);
+            box-shadow: 
+                0 20px 40px rgba(0, 204, 102, 0.3),
+                inset 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .robot-head {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #3a3a4e, #2a2a3e);
+            border-radius: 50%;
+            left: 50%;
+            top: -40px;
+            transform: translateX(-50%);
+            box-shadow: 0 10px 20px rgba(0, 102, 204, 0.4);
+        }
+
+        .robot-eye {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--medical-cyan);
+            border-radius: 50%;
+            top: 30px;
+            animation: robot-eye-blink 3s ease-in-out infinite;
+            box-shadow: 0 0 15px var(--medical-cyan);
+        }
+
+        .robot-eye.left { left: 20px; }
+        .robot-eye.right { right: 20px; animation-delay: 0.5s; }
+
+        .robot-arm {
+            position: absolute;
+            width: 15px;
+            height: 80px;
+            background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
+            border-radius: 8px;
+            top: 20px;
+            animation: robot-arm-move 4s ease-in-out infinite;
+        }
+
+        .robot-arm.left { left: -20px; }
+        .robot-arm.right { right: -20px; animation-delay: 2s; }
+
+        /* Medical Particles */
+        .medical-particles {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--medical-green);
+            border-radius: 50%;
+            animation: particle-float 15s linear infinite;
+            opacity: 0.7;
+        }
+
+        .particle:nth-child(2n) { background: var(--medical-cyan); animation-duration: 12s; }
+        .particle:nth-child(3n) { background: var(--medical-blue); animation-duration: 18s; }
+        .particle:nth-child(4n) { background: var(--medical-purple); animation-duration: 20s; }
+
+        /* Main Container */
+        .hero-container {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            padding: 2rem;
+        }
+
+        .main-content {
+            text-align: center;
+            max-width: 800px;
+            position: relative;
+            z-index: 15;
+        }
+
+        .logo-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .medical-cross {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin-bottom: 1rem;
+            animation: medical-cross-pulse 3s ease-in-out infinite;
+        }
+
+        .cross-horizontal, .cross-vertical {
+            position: absolute;
+            background: linear-gradient(45deg, var(--medical-red), var(--medical-cyan));
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(0, 204, 102, 0.6);
+        }
+
+        .cross-horizontal {
+            width: 80px;
+            height: 20px;
+            top: 30px;
+            left: 0;
+        }
+
+        .cross-vertical {
+            width: 20px;
+            height: 80px;
+            top: 0;
+            left: 30px;
+        }
+
+        .main-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--medical-cyan), var(--medical-blue), var(--medical-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: title-glow 4s ease-in-out infinite;
+            text-shadow: 0 0 50px rgba(0, 204, 102, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .portal-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .portal-card {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 204, 102, 0.3);
+            border-radius: 2rem;
+            padding: 3rem 2rem;
+            text-decoration: none;
+            color: white;
+            transition: all 0.6s ease;
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent, rgba(0, 204, 102, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .portal-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .portal-card:hover {
+            transform: translateY(-20px) rotateY(10deg) rotateX(5deg);
+            border-color: var(--medical-cyan);
+            box-shadow: 
+                0 30px 60px rgba(0, 204, 102, 0.3),
+                0 0 100px rgba(0, 204, 204, 0.2);
+        }
+
+        .portal-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            animation: icon-pulse 3s ease-in-out infinite;
+        }
+
+        .patient-card .portal-icon { animation-delay: 0s; }
+        .doctor-card .portal-icon { animation-delay: 1.5s; }
+
+        .portal-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--medical-cyan);
+        }
+
+        .portal-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Medical Stats Display */
+        .medical-stats {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 204, 102, 0.3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            z-index: 20;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: var(--medical-green);
+            font-size: 0.9rem;
+        }
+
+        .stat-value {
+            color: var(--medical-cyan);
+            font-weight: 600;
+        }
+
+        /* Heartbeat Monitor */
+        .heartbeat-monitor {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            width: 200px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--medical-red);
+            border-radius: 0.5rem;
+            z-index: 20;
+            overflow: hidden;
+        }
+
+        .heartbeat-line {
+            position: absolute;
+            bottom: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--medical-red);
+            animation: heartbeat-pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 10px var(--medical-red);
+        }
+
+        /* Animations */
+        @keyframes medical-grid-pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        @keyframes dna-rotate {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        @keyframes dna-base-glow {
+            0% { box-shadow: 0 0 5px var(--medical-green); }
+            100% { box-shadow: 0 0 20px var(--medical-green); }
+        }
+
+        @keyframes robot-float {
+            0%, 100% { transform: translateY(0px) rotateY(15deg); }
+            50% { transform: translateY(-20px) rotateY(-15deg); }
+        }
+
+        @keyframes robot-eye-blink {
+            0%, 90%, 100% { opacity: 1; }
+            95% { opacity: 0; }
+        }
+
+        @keyframes robot-arm-move {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(15deg); }
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) translateX(0px);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes medical-cross-pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        @keyframes title-glow {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 20px rgba(0, 204, 102, 0.5)); }
+            50% { filter: brightness(1.2) drop-shadow(0 0 40px rgba(0, 204, 204, 0.8)); }
+        }
+
+        @keyframes icon-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes heartbeat-pulse {
+            0% { transform: scaleX(0); }
+            20% { transform: scaleX(1); }
+            40% { transform: scaleX(0.8); }
+            60% { transform: scaleX(1.2); }
+            80% { transform: scaleX(0.9); }
+            100% { transform: scaleX(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-title { font-size: 2.5rem; }
+            .portal-cards { 
+                grid-template-columns: 1fr; 
+                gap: 2rem; 
+            }
+            .medical-robot { display: none; }
+            .dna-helix { display: none; }
+            .medical-stats { 
+                position: relative; 
+                margin: 2rem auto; 
+                width: fit-content;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- DNA Helix -->
+    <div class="dna-helix">
+        <div class="dna-strand">
+            <div class="dna-base" style="top: 10%;"></div>
+            <div class="dna-base" style="top: 30%;"></div>
+            <div class="dna-base" style="top: 50%;"></div>
+            <div class="dna-base" style="top: 70%;"></div>
+            <div class="dna-base" style="top: 90%;"></div>
+        </div>
+        <div class="dna-strand">
+            <div class="dna-base" style="top: 20%;"></div>
+            <div class="dna-base" style="top: 40%;"></div>
+            <div class="dna-base" style="top: 60%;"></div>
+            <div class="dna-base" style="top: 80%;"></div>
+        </div>
+    </div>
+
+    <!-- Medical Robot -->
+    <div class="medical-robot">
+        <div class="robot-body">
+            <div class="robot-head">
+                <div class="robot-eye left"></div>
+                <div class="robot-eye right"></div>
+            </div>
+            <div class="robot-arm left"></div>
+            <div class="robot-arm right"></div>
+        </div>
+    </div>
+
+    <!-- Medical Particles -->
+    <div class="medical-particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
+    </div>
+
+    <!-- Heartbeat Monitor -->
+    <div class="heartbeat-monitor">
+        <div class="heartbeat-line"></div>
+    </div>
+
+    <!-- Medical Stats -->
+    <div class="medical-stats">
+        <div class="stat-item">
+            <span>System Status:</span>
+            <span class="stat-value">ONLINE</span>
+        </div>
+        <div class="stat-item">
+            <span>AI Models:</span>
+            <span class="stat-value">ACTIVE</span>
+        </div>
+        <div class="stat-item">
+            <span>Patients:</span>
+            <span class="stat-value">2,847</span>
+        </div>
+        <div class="stat-item">
+            <span>Accuracy:</span>
+            <span class="stat-value">99.7%</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="hero-container">
+        <div class="main-content">
+            <div class="logo-container">
+                <div class="medical-cross">
+                    <div class="cross-horizontal"></div>
+                    <div class="cross-vertical"></div>
+                </div>
+            </div>
+            
+            <h1 class="main-title">ClinicalAI</h1>
+            <p class="subtitle">Advanced Medical Intelligence Platform</p>
+            
+            <div class="portal-cards">
+                <a href="/patient" class="portal-card patient-card">
+                    <span class="portal-icon">🏥</span>
+                    <h2 class="portal-title">Patient Portal</h2>
+                    <p class="portal-description">
+                        Submit medical reports, upload images, and receive AI-powered health insights with advanced diagnostic capabilities.
+                    </p>
+                </a>
+                
+                <a href="/doctor" class="portal-card doctor-card">
+                    <span class="portal-icon">👨‍⚕️</span>
+                    <h2 class="portal-title">Doctor Portal</h2>
+                    <p class="portal-description">
+                        Access comprehensive patient data, AI consultations, and advanced medical analysis tools with 3D visualizations.
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add dynamic particle generation
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            
+            const colors = ['var(--medical-green)', 'var(--medical-cyan)', 'var(--medical-blue)', 'var(--medical-purple)'];
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            document.querySelector('.medical-particles').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 20000);
+        }
+
+        // Generate particles continuously
+        setInterval(createParticle, 2000);
+
+        // Add interactive hover effects
+        document.querySelectorAll('.portal-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-20px) rotateY(10deg) rotateX(5deg) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0px) rotateY(0deg) rotateX(0deg) scale(1)';
+            });
+        });
+
+        // Dynamic stats update
+        function updateStats() {
+            const patients = document.querySelector('.medical-stats .stat-item:nth-child(3) .stat-value');
+            const accuracy = document.querySelector('.medical-stats .stat-item:nth-child(4) .stat-value');
+            
+            let patientCount = 2847;
+            let accuracyValue = 99.7;
+            
+            setInterval(() => {
+                patientCount += Math.floor(Math.random() * 3);
+                accuracyValue = (99.5 + Math.random() * 0.4).toFixed(1);
+                
+                patients.textContent = patientCount.toLocaleString();
+                accuracy.textContent = accuracyValue + '%';
+            }, 5000);
+        }
+
+        updateStats();
+    </script>
+</body>
+</html>
