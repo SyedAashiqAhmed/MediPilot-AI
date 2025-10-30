@@ -22,18 +22,6 @@
     "last_login": "2025-10-29T16:45:00"
   },
   {
-    "id": "U0003",
-    "user_id": "D001",
-    "name": "Dr. Smith",
-    "email": "dr.smith@medcore.ai",
-    "phone": "+1234567892",
-    "role": "doctor",
-    "specialization": "General Medicine",
-    "status": "active",
-    "registered_at": "2025-08-01T08:00:00",
-    "last_login": "2025-10-30T18:00:00"
-  },
-  {
     "id": "U0004",
     "user_id": "D002",
     "name": "Dr. Johnson",
