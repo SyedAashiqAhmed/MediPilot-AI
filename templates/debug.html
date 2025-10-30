@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug - MedCore AI</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+        .box { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        button { background: #1e40af; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin: 5px; }
+        .result { margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; font-family: monospace; font-size: 12px; white-space: pre-wrap; }
+        .success { background: #d1fae5; color: #065f46; }
+        .error { background: #fee2e2; color: #991b1b; }
+        h1 { color: #1e40af; }
+    </style>
+</head>
+<body>
+    <h1>🔍 MedCore AI - Debug Dashboard</h1>
+    <p><strong>Server Status:</strong> <span id="serverStatus">Checking...</span></p>
+    
+    <div class="box">
+        <h2>Test Video Call Request</h2>
+        <button onclick="testVideoCall()">Test POST /api/request_video_call</button>
+        <div id="videoCallResult" class="result"></div>
+    </div>
+
+    <div class="box">
+        <h2>Test Get Requests</h2>
+        <button onclick="testGetRequests()">Test GET /api/get_video_call_requests</button>
+        <div id="getRequestsResult" class="result"></div>
+    </div>
+
+    <div class="box">
+        <h2>Current Page Info</h2>
+        <div class="result">
+            <strong>Current URL:</strong> <span id="currentUrl"></span><br>
+            <strong>Protocol:</strong> <span id="protocol"></span><br>
+            <strong>Host:</strong> <span id="host"></span><br>
+            <strong>Port:</strong> <span id="port"></span>
+        </div>
+    </div>
+
+    <script>
+        // Display current page info
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('protocol').textContent = window.location.protocol;
+        document.getElementById('host').textContent = window.location.hostname;
+        document.getElementById('port').textContent = window.location.port || '(default)';
+
+        // Check server status
+        fetch('/api/get_video_call_requests')
+            .then(r => {
+                document.getElementById('serverStatus').textContent = '✅ Server is running!';
+                document.getElementById('serverStatus').style.color = 'green';
+            })
+            .catch(e => {
+                document.getElementById('serverStatus').textContent = '❌ Server not responding: ' + e.message;
+                document.getElementById('serverStatus').style.color = 'red';
+            });
+
+        async function testVideoCall() {
+            const resultDiv = document.getElementById('videoCallResult');
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const url = '/api/request_video_call';
+                console.log('Testing URL:', window.location.origin + url);
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        patient_id: 'DEBUG123',
+                        patient_name: 'Debug Patient',
+                        reason: 'Debug test'
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                const text = await response.text();
+                console.log('Response text:', text);
+                
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    throw new Error('Response is not JSON: ' + text.substring(0, 200));
+                }
+                
+                resultDiv.textContent = `✅ SUCCESS!\n\nStatus: ${response.status}\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = 'result success';
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.textContent = `❌ ERROR!\n\n${error.message}\n\nStack:\n${error.stack}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testGetRequests() {
+            const resultDiv = document.getElementById('getRequestsResult');
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const url = '/api/get_video_call_requests';
+                console.log('Testing URL:', window.location.origin + url);
+                
+                const response = await fetch(url);
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                const text = await response.text();
+                console.log('Response text:', text);
+                
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    throw new Error('Response is not JSON: ' + text.substring(0, 200));
+                }
+                
+                resultDiv.textContent = `✅ SUCCESS!\n\nStatus: ${response.status}\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = 'result success';
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.textContent = `❌ ERROR!\n\n${error.message}\n\nStack:\n${error.stack}`;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>

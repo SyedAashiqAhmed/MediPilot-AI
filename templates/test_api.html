@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - MedCore AI</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #1e40af;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #1e40af;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #1e3a8a;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 MedCore AI - API Testing Dashboard</h1>
+    
+    <div class="test-section">
+        <h2>1. Test Video Call Request API</h2>
+        <button onclick="testVideoCallRequest()">POST /api/request_video_call</button>
+        <div id="result1" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test Get Video Call Requests API</h2>
+        <button onclick="testGetVideoCallRequests()">GET /api/get_video_call_requests</button>
+        <div id="result2" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test Schedule Appointment API</h2>
+        <button onclick="testScheduleAppointment()">POST /api/schedule_appointment</button>
+        <div id="result3" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Test Get Patient Appointments API</h2>
+        <button onclick="testGetPatientAppointments()">GET /api/get_patient_appointments/P12345</button>
+        <div id="result4" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Test Get All Appointments API</h2>
+        <button onclick="testGetAllAppointments()">GET /api/get_all_appointments</button>
+        <div id="result5" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>6. Test All Existing Routes</h2>
+        <button onclick="testAllRoutes()">Test All Routes</button>
+        <div id="result6" class="result"></div>
+    </div>
+
+    <script>
+        async function testVideoCallRequest() {
+            const resultDiv = document.getElementById('result1');
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const response = await fetch('/api/request_video_call', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        patient_id: 'TEST123',
+                        patient_name: 'Test Patient',
+                        reason: 'API Test'
+                    })
+                });
+                
+                const data = await response.json();
+                resultDiv.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testGetVideoCallRequests() {
+            const resultDiv = document.getElementById('result2');
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const response = await fetch('/api/get_video_call_requests');
+                const data = await response.json();
+                resultDiv.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testScheduleAppointment() {
+            const resultDiv = document.getElementById('result3');
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const response = await fetch('/api/schedule_appointment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        patient_id: 'TEST123',
+                        patient_name: 'Test Patient',
+                        doctor_name: 'Dr. Test',
+                        appointment_date: '2025-11-01',
+                        appointment_time: '10:00',
+                        duration: '30',
+                        notes: 'API Test Appointment'
+                    })
+                });
+                
+                const data = await response.json();
+                resultDiv.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testGetPatientAppointments() {
+            const resultDiv = document.getElementById('result4');
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const response = await fetch('/api/get_patient_appointments/TEST123');
+                const data = await response.json();
+                resultDiv.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testGetAllAppointments() {
+            const resultDiv = document.getElementById('result5');
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const response = await fetch('/api/get_all_appointments');
+                const data = await response.json();
+                resultDiv.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = response.ok ? 'result success' : 'result error';
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testAllRoutes() {
+            const resultDiv = document.getElementById('result6');
+            resultDiv.textContent = 'Testing all routes...\n\n';
+            resultDiv.className = 'result';
+            
+            const routes = [
+                { url: '/', method: 'GET', name: 'Home' },
+                { url: '/patient', method: 'GET', name: 'Patient Portal' },
+                { url: '/doctor', method: 'GET', name: 'Doctor Portal' },
+                { url: '/api/get_video_call_requests', method: 'GET', name: 'Get Video Calls' },
+                { url: '/api/get_all_appointments', method: 'GET', name: 'Get Appointments' },
+            ];
+            
+            let results = '';
+            for (const route of routes) {
+                try {
+                    const response = await fetch(route.url, { method: route.method });
+                    const status = response.ok ? '✅' : '❌';
+                    results += `${status} ${route.method} ${route.url} - Status: ${response.status}\n`;
+                } catch (error) {
+                    results += `❌ ${route.method} ${route.url} - Error: ${error.message}\n`;
+                }
+            }
+            
+            resultDiv.textContent = results;
+        }
+    </script>
+</body>
+</html>

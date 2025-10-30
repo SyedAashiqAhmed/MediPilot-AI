@@ -1,0 +1,16 @@
+[
+  {
+    "id": "APT0001",
+    "patient_id": "P1234511111111123",
+    "patient_name": "Patient P1234511111111123",
+    "doctor_name": "Dr. Smith",
+    "appointment_date": "2025-10-31",
+    "appointment_time": "15:38",
+    "duration": "60",
+    "notes": "",
+    "status": "completed",
+    "created_at": "2025-10-30T11:38:08.481032",
+    "patient_notified": false,
+    "updated_at": "2025-10-30T12:11:56.836835"
+  }
+]

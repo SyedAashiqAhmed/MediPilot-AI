@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Portal - MedCore AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1e40af;
+            --primary-teal: #0891b2;
+            --primary-green: #059669;
+            --accent-blue: #3b82f6;
+            --neutral-50: #f8fafc;
+            --neutral-100: #f1f5f9;
+            --neutral-200: #e2e8f0;
+            --neutral-300: #cbd5e1;
+            --neutral-500: #64748b;
+            --neutral-600: #475569;
+            --neutral-700: #334155;
+            --neutral-800: #1e293b;
+            --neutral-900: #0f172a;
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+            --error-red: #ef4444;
+            --urgent-red: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: linear-gradient(135deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
+            min-height: 100vh;
+            color: var(--neutral-700);
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-teal));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-800);
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--neutral-500);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            color: var(--neutral-600);
+            font-size: 1.125rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary-blue);
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .stat-card.pending { border-left-color: var(--warning-orange); }
+        .stat-card.preparing { border-left-color: var(--accent-blue); }
+        .stat-card.ready { border-left-color: var(--success-green); }
+        .stat-card.messages { border-left-color: var(--primary-teal); }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--neutral-600);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--neutral-200);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--neutral-900);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-teal));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(5, 150, 105, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--neutral-100);
+            color: var(--neutral-700);
+            border: 1px solid var(--neutral-300);
+        }
+
+        .btn-secondary:hover {
+            background: var(--neutral-200);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        /* Prescription Card */
+        .prescription-card {
+            background: var(--neutral-50);
+            border: 1px solid var(--neutral-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+
+        .prescription-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .prescription-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .prescription-id {
+            font-weight: 700;
+            color: var(--primary-green);
+            font-size: 1.1rem;
+        }
+
+        .priority-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-urgent {
+            background: var(--urgent-red);
+            color: white;
+        }
+
+        .priority-high {
+            background: var(--warning-orange);
+            color: white;
+        }
+
+        .priority-normal {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 0.5rem;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-orange);
+        }
+
+        .status-preparing {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .status-ready {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-green);
+        }
+
+        .status-delivered {
+            background: rgba(107, 114, 128, 0.1);
+            color: var(--neutral-600);
+        }
+
+        .medicine-list {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .medicine-item {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .medicine-item:last-child {
+            border-bottom: none;
+        }
+
+        .medicine-name {
+            font-weight: 600;
+            color: var(--neutral-900);
+        }
+
+        .medicine-details {
+            font-size: 0.875rem;
+            color: var(--neutral-600);
+            margin-top: 0.25rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        /* Messages */
+        .message-card {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .message-card.unread {
+            border-left: 4px solid var(--primary-teal);
+            background: rgba(8, 145, 178, 0.05);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-from {
+            font-weight: 600;
+            color: var(--neutral-900);
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--neutral-500);
+        }
+
+        .message-text {
+            color: var(--neutral-700);
+            line-height: 1.5;
+        }
+
+        .notification-badge {
+            background: var(--error-red);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--neutral-500);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .main-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-pills"></i>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-title">MedCore AI</div>
+                    <div class="logo-subtitle">Pharmacy Portal</div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button onclick="loadPrescriptions()" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-sync"></i>
+                    Refresh
+                </button>
+                <a href="/" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-home"></i>
+                    Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Pharmacy Dashboard</h1>
+            <p class="dashboard-subtitle">
+                Manage prescriptions, prepare medicines, and coordinate deliveries
+            </p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card pending">
+                <div class="stat-number" id="pendingCount">0</div>
+                <div class="stat-label">
+                    <i class="fas fa-clock"></i>
+                    Pending Orders
+                </div>
+            </div>
+            <div class="stat-card preparing">
+                <div class="stat-number" id="preparingCount">0</div>
+                <div class="stat-label">
+                    <i class="fas fa-flask"></i>
+                    Preparing
+                </div>
+            </div>
+            <div class="stat-card ready">
+                <div class="stat-number" id="readyCount">0</div>
+                <div class="stat-label">
+                    <i class="fas fa-check-circle"></i>
+                    Ready for Delivery
+                </div>
+            </div>
+            <div class="stat-card messages">
+                <div class="stat-number" id="messagesCount">0</div>
+                <div class="stat-label">
+                    <i class="fas fa-envelope"></i>
+                    Unread Messages
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Prescriptions List -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-prescription"></i>
+                        Prescriptions
+                    </h2>
+                    <div>
+                        <select id="statusFilter" onchange="filterPrescriptions()" style="padding: 0.5rem; border-radius: 6px; border: 1px solid var(--neutral-300);">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="preparing">Preparing</option>
+                            <option value="ready">Ready</option>
+                            <option value="delivered">Delivered</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="prescriptionsList">
+                    <div class="empty-state">
+                        <i class="fas fa-prescription-bottle"></i>
+                        <p>Loading prescriptions...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Panel -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-comments"></i>
+                        Doctor Messages
+                        <span id="unreadBadge" class="notification-badge" style="display: none;">0</span>
+                    </h2>
+                </div>
+                <div id="messagesList" style="max-height: 600px; overflow-y: auto;">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No messages</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allPrescriptions = [];
+
+        // Load prescriptions on page load
+        window.addEventListener('load', function() {
+            loadPrescriptions();
+            loadMessages();
+            // Auto-refresh every 30 seconds
+            setInterval(loadPrescriptions, 30000);
+            setInterval(loadMessages, 30000);
+        });
+
+        async function loadPrescriptions() {
+            try {
+                const response = await fetch('/api/get_prescriptions');
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    allPrescriptions = result.prescriptions;
+                    
+                    // Update stats
+                    document.getElementById('pendingCount').textContent = result.pending_count;
+                    document.getElementById('preparingCount').textContent = result.preparing_count;
+                    document.getElementById('readyCount').textContent = result.ready_count;
+                    
+                    // Render prescriptions
+                    renderPrescriptions(allPrescriptions);
+                }
+            } catch (error) {
+                console.error('Error loading prescriptions:', error);
+            }
+        }
+
+        function filterPrescriptions() {
+            const filter = document.getElementById('statusFilter').value;
+            if (filter) {
+                const filtered = allPrescriptions.filter(p => p.status === filter);
+                renderPrescriptions(filtered);
+            } else {
+                renderPrescriptions(allPrescriptions);
+            }
+        }
+
+        function renderPrescriptions(prescriptions) {
+            const listDiv = document.getElementById('prescriptionsList');
+            
+            if (prescriptions.length === 0) {
+                listDiv.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-prescription-bottle"></i>
+                        <p>No prescriptions found</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const html = prescriptions.map(rx => {
+                const priorityClass = `priority-${rx.priority}`;
+                const statusClass = `status-${rx.status}`;
+                const date = new Date(rx.created_at).toLocaleString();
+                
+                return `
+                    <div class="prescription-card">
+                        <div class="prescription-header">
+                            <div>
+                                <span class="prescription-id">${rx.id}</span>
+                                <span class="${priorityClass} priority-badge">${rx.priority}</span>
+                                <span class="${statusClass} status-badge">${rx.status}</span>
+                            </div>
+                            <div style="text-align: right; font-size: 0.875rem; color: var(--neutral-600);">
+                                <div><i class="fas fa-clock"></i> ${date}</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <div style="font-weight: 600; color: var(--neutral-900);">
+                                <i class="fas fa-user"></i>
+                                Patient: ${rx.patient_name} (${rx.patient_id})
+                            </div>
+                            <div style="font-size: 0.875rem; color: var(--neutral-600); margin-top: 0.25rem;">
+                                <i class="fas fa-user-md"></i>
+                                Prescribed by: ${rx.doctor_name}
+                            </div>
+                        </div>
+
+                        <div class="medicine-list">
+                            <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--neutral-900);">
+                                <i class="fas fa-pills"></i>
+                                Medicines:
+                            </div>
+                            ${rx.medicines.map(med => `
+                                <div class="medicine-item">
+                                    <div class="medicine-name">${med.name}</div>
+                                    <div class="medicine-details">
+                                        ${med.dosage} | ${med.frequency} | ${med.duration}
+                                        ${med.instructions ? `<br><i class="fas fa-info-circle"></i> ${med.instructions}` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        ${rx.notes ? `
+                            <div style="background: rgba(245, 158, 11, 0.1); padding: 0.75rem; border-radius: 6px; margin: 1rem 0; border-left: 3px solid var(--warning-orange);">
+                                <div style="font-weight: 600; font-size: 0.875rem; color: var(--warning-orange); margin-bottom: 0.25rem;">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Special Instructions:
+                                </div>
+                                <div style="font-size: 0.875rem; color: var(--neutral-700);">${rx.notes}</div>
+                            </div>
+                        ` : ''}
+
+                        ${rx.pharmacist_name ? `
+                            <div style="font-size: 0.875rem; color: var(--neutral-600); margin-top: 0.5rem;">
+                                <i class="fas fa-user-check"></i>
+                                Handled by: ${rx.pharmacist_name}
+                            </div>
+                        ` : ''}
+
+                        <div class="action-buttons">
+                            ${rx.status === 'pending' ? `
+                                <button onclick="updateStatus('${rx.id}', 'preparing')" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-flask"></i>
+                                    Start Preparing
+                                </button>
+                            ` : ''}
+                            ${rx.status === 'preparing' ? `
+                                <button onclick="updateStatus('${rx.id}', 'ready')" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-check"></i>
+                                    Mark Ready
+                                </button>
+                            ` : ''}
+                            ${rx.status === 'ready' ? `
+                                <button onclick="updateStatus('${rx.id}', 'delivered')" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-truck"></i>
+                                    Mark Delivered
+                                </button>
+                            ` : ''}
+                            <button onclick="viewDetails('${rx.id}')" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-eye"></i>
+                                Details
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            listDiv.innerHTML = html;
+        }
+
+        async function updateStatus(prescriptionId, newStatus) {
+            const pharmacistName = prompt('Enter your name:', 'Pharmacist');
+            if (!pharmacistName) return;
+
+            try {
+                const response = await fetch('/api/update_prescription_status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prescription_id: prescriptionId,
+                        status: newStatus,
+                        pharmacist_name: pharmacistName
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    alert(`✅ Prescription ${prescriptionId} marked as ${newStatus}!`);
+                    loadPrescriptions();
+                } else {
+                    alert('❌ Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('❌ Error updating status: ' + error.message);
+            }
+        }
+
+        function viewDetails(prescriptionId) {
+            const prescription = allPrescriptions.find(p => p.id === prescriptionId);
+            if (!prescription) return;
+
+            const details = `
+Prescription ID: ${prescription.id}
+Patient: ${prescription.patient_name} (${prescription.patient_id})
+Doctor: ${prescription.doctor_name}
+Priority: ${prescription.priority}
+Status: ${prescription.status}
+
+Medicines:
+${prescription.medicines.map(m => `- ${m.name}: ${m.dosage}, ${m.frequency}, ${m.duration}`).join('\n')}
+
+${prescription.notes ? `\nNotes: ${prescription.notes}` : ''}
+${prescription.pharmacist_name ? `\nPharmacist: ${prescription.pharmacist_name}` : ''}
+            `;
+            
+            alert(details);
+        }
+
+        async function loadMessages() {
+            try {
+                const response = await fetch('/api/get_pharmacy_messages');
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    document.getElementById('messagesCount').textContent = result.unread_count;
+                    
+                    const badge = document.getElementById('unreadBadge');
+                    if (result.unread_count > 0) {
+                        badge.textContent = result.unread_count;
+                        badge.style.display = 'inline-block';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                    
+                    renderMessages(result.messages);
+                }
+            } catch (error) {
+                console.error('Error loading messages:', error);
+            }
+        }
+
+        function renderMessages(messages) {
+            const listDiv = document.getElementById('messagesList');
+            
+            if (messages.length === 0) {
+                listDiv.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No messages</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const html = messages.map(msg => {
+                const date = new Date(msg.created_at).toLocaleString();
+                const unreadClass = msg.read ? '' : 'unread';
+                
+                return `
+                    <div class="message-card ${unreadClass}">
+                        <div class="message-header">
+                            <span class="message-from">
+                                <i class="fas fa-user-md"></i>
+                                ${msg.from_name}
+                            </span>
+                            <span class="message-time">${date}</span>
+                        </div>
+                        <div class="message-text">${msg.message}</div>
+                        ${msg.prescription_id ? `
+                            <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--neutral-200);">
+                                <button onclick="showPrescriptionFromMessage('${msg.prescription_id}'); markMessageRead('${msg.id}'); event.stopPropagation();" 
+                                        style="background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal)); 
+                                               color: white; 
+                                               border: none; 
+                                               padding: 0.5rem 1rem; 
+                                               border-radius: 6px; 
+                                               cursor: pointer; 
+                                               font-size: 0.875rem;
+                                               font-weight: 600;
+                                               display: flex;
+                                               align-items: center;
+                                               gap: 0.5rem;
+                                               transition: all 0.3s ease;">
+                                    <i class="fas fa-prescription"></i>
+                                    View Prescription ${msg.prescription_id}
+                                </button>
+                            </div>
+                        ` : `
+                            <div style="margin-top: 0.75rem;">
+                                <button onclick="markMessageRead('${msg.id}'); event.stopPropagation();" 
+                                        style="background: var(--neutral-200); 
+                                               color: var(--neutral-700); 
+                                               border: none; 
+                                               padding: 0.5rem 1rem; 
+                                               border-radius: 6px; 
+                                               cursor: pointer; 
+                                               font-size: 0.875rem;
+                                               font-weight: 600;">
+                                    <i class="fas fa-check"></i>
+                                    Mark as Read
+                                </button>
+                            </div>
+                        `}
+                    </div>
+                `;
+            }).join('');
+
+            listDiv.innerHTML = html;
+        }
+
+        async function markMessageRead(messageId) {
+            try {
+                await fetch(`/api/mark_message_read/${messageId}`, { method: 'POST' });
+                loadMessages();
+            } catch (error) {
+                console.error('Error marking message as read:', error);
+            }
+        }
+
+        async function showPrescriptionFromMessage(prescriptionId) {
+            try {
+                const response = await fetch('/api/get_prescriptions');
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    const prescription = result.prescriptions.find(p => p.id === prescriptionId);
+                    
+                    if (prescription) {
+                        showPrescriptionModal(prescription);
+                    } else {
+                        alert('Prescription not found: ' + prescriptionId);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading prescription:', error);
+                alert('Error loading prescription details');
+            }
+        }
+
+        function showPrescriptionModal(rx) {
+            const statusColors = {
+                'pending': '#f59e0b',
+                'preparing': '#3b82f6',
+                'ready': '#10b981',
+                'delivered': '#6b7280'
+            };
+            
+            const priorityColors = {
+                'urgent': '#dc2626',
+                'high': '#f59e0b',
+                'normal': '#10b981'
+            };
+
+            const modalHTML = `
+                <div id="prescriptionModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 2rem;" onclick="closePrescriptionModal()">
+                    <div style="background: white; border-radius: 16px; max-width: 800px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3);" onclick="event.stopPropagation()">
+                        <!-- Header -->
+                        <div style="background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal)); color: white; padding: 2rem; border-radius: 16px 16px 0 0; position: relative;">
+                            <button onclick="closePrescriptionModal()" style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <i class="fas fa-prescription" style="font-size: 2.5rem;"></i>
+                                <div>
+                                    <h2 style="font-family: 'Poppins', sans-serif; font-size: 1.75rem; margin-bottom: 0.25rem;">Prescription ${rx.id}</h2>
+                                    <p style="opacity: 0.9;">Complete prescription details</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                <span style="background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.875rem;">
+                                    <i class="fas fa-user"></i> ${rx.patient_name}
+                                </span>
+                                <span style="background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.875rem;">
+                                    <i class="fas fa-user-md"></i> ${rx.doctor_name}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div style="padding: 2rem;">
+                            <!-- Status and Priority -->
+                            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                                <div style="flex: 1; min-width: 200px; background: ${statusColors[rx.status]}20; padding: 1rem; border-radius: 12px; border-left: 4px solid ${statusColors[rx.status]};">
+                                    <div style="font-size: 0.75rem; color: var(--neutral-600); margin-bottom: 0.25rem; font-weight: 600; text-transform: uppercase;">Status</div>
+                                    <div style="font-size: 1.25rem; font-weight: 700; color: ${statusColors[rx.status]}; text-transform: capitalize;">
+                                        ${rx.status}
+                                    </div>
+                                </div>
+                                <div style="flex: 1; min-width: 200px; background: ${priorityColors[rx.priority]}20; padding: 1rem; border-radius: 12px; border-left: 4px solid ${priorityColors[rx.priority]};">
+                                    <div style="font-size: 0.75rem; color: var(--neutral-600); margin-bottom: 0.25rem; font-weight: 600; text-transform: uppercase;">Priority</div>
+                                    <div style="font-size: 1.25rem; font-weight: 700; color: ${priorityColors[rx.priority]}; text-transform: uppercase;">
+                                        ${rx.priority}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Medicines -->
+                            <div style="margin-bottom: 2rem;">
+                                <h3 style="font-family: 'Poppins', sans-serif; font-size: 1.25rem; margin-bottom: 1rem; color: var(--neutral-900); display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-pills"></i>
+                                    Prescribed Medicines (${rx.medicines.length})
+                                </h3>
+                                <div style="display: grid; gap: 1rem;">
+                                    ${rx.medicines.map((med, index) => `
+                                        <div style="background: var(--neutral-50); padding: 1.5rem; border-radius: 12px; border: 2px solid var(--neutral-200);">
+                                            <div style="display: flex; align-items: start; justify-content: space-between; margin-bottom: 1rem;">
+                                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal)); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.125rem;">
+                                                        ${index + 1}
+                                                    </div>
+                                                    <div>
+                                                        <div style="font-size: 1.125rem; font-weight: 700; color: var(--neutral-900);">${med.name}</div>
+                                                        <div style="font-size: 0.875rem; color: var(--neutral-600); margin-top: 0.25rem;">
+                                                            <strong>Dosage:</strong> ${med.dosage}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                                <div>
+                                                    <div style="font-size: 0.75rem; color: var(--neutral-500); font-weight: 600; margin-bottom: 0.25rem;">FREQUENCY</div>
+                                                    <div style="color: var(--neutral-900); font-weight: 600;">
+                                                        <i class="fas fa-clock"></i> ${med.frequency}
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div style="font-size: 0.75rem; color: var(--neutral-500); font-weight: 600; margin-bottom: 0.25rem;">DURATION</div>
+                                                    <div style="color: var(--neutral-900); font-weight: 600;">
+                                                        <i class="fas fa-calendar"></i> ${med.duration}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            ${med.instructions ? `
+                                                <div style="background: rgba(59, 130, 246, 0.1); padding: 0.75rem; border-radius: 8px; border-left: 3px solid var(--primary-blue);">
+                                                    <div style="font-size: 0.75rem; color: var(--primary-blue); font-weight: 600; margin-bottom: 0.25rem;">
+                                                        <i class="fas fa-info-circle"></i> INSTRUCTIONS
+                                                    </div>
+                                                    <div style="color: var(--neutral-700); font-size: 0.875rem;">${med.instructions}</div>
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Doctor's Notes -->
+                            ${rx.notes ? `
+                                <div style="background: rgba(245, 158, 11, 0.1); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--warning-orange); margin-bottom: 2rem;">
+                                    <div style="font-weight: 700; color: var(--warning-orange); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                        <i class="fas fa-comment-medical"></i>
+                                        Doctor's Notes
+                                    </div>
+                                    <div style="color: var(--neutral-700);">${rx.notes}</div>
+                                </div>
+                            ` : ''}
+
+                            <!-- Timeline -->
+                            <div style="background: var(--neutral-50); padding: 1.5rem; border-radius: 12px;">
+                                <h4 style="font-weight: 700; margin-bottom: 1rem; color: var(--neutral-900);">
+                                    <i class="fas fa-history"></i>
+                                    Timeline
+                                </h4>
+                                <div style="display: grid; gap: 0.75rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <i class="fas fa-calendar-plus" style="color: var(--primary-blue);"></i>
+                                        <span style="font-size: 0.875rem;"><strong>Prescribed:</strong> ${new Date(rx.created_at).toLocaleString()}</span>
+                                    </div>
+                                    ${rx.pharmacist_name ? `
+                                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                            <i class="fas fa-user" style="color: var(--primary-teal);"></i>
+                                            <span style="font-size: 0.875rem;"><strong>Pharmacist:</strong> ${rx.pharmacist_name}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${rx.delivered_at ? `
+                                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                            <i class="fas fa-check-circle" style="color: var(--success-green);"></i>
+                                            <span style="font-size: 0.875rem;"><strong>Delivered:</strong> ${new Date(rx.delivered_at).toLocaleString()}</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div style="background: var(--neutral-50); padding: 1.5rem 2rem; border-radius: 0 0 16px 16px; display: flex; justify-content: flex-end; gap: 1rem;">
+                            <button onclick="closePrescriptionModal()" style="background: var(--neutral-200); color: var(--neutral-700); border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                                Close
+                            </button>
+                            <button onclick="window.print()" style="background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal)); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                                <i class="fas fa-print"></i> Print
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+
+        function closePrescriptionModal() {
+            const modal = document.getElementById('prescriptionModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePrescriptionModal();
+            }
+        });
+    </script>
+</body>
+</html>

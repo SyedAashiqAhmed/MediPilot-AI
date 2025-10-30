@@ -1,0 +1,418 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                    MEDCORE AI - SYSTEM FLOWCHART                          ║
+║                   Smart City Healthcare Platform                          ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          LAYER 1: USER PORTALS                          │
+└─────────────────────────────────────────────────────────────────────────┘
+
+    ┌──────────────┐      ┌──────────────┐      ┌──────────────┐
+    │   PATIENT    │      │    DOCTOR    │      │   PHARMACY   │
+    │   PORTAL     │      │    PORTAL    │      │    PORTAL    │
+    │              │      │              │      │              │
+    │ • AI Chat    │      │ • AI Analyze │      │ • View Rx    │
+    │ • Video Call │      │ • Send Rx    │      │ • Update     │
+    │ • Track Rx   │      │ • Consult    │      │ • Messages   │
+    └──────┬───────┘      └──────┬───────┘      └──────┬───────┘
+           │                     │                     │
+           │  HTTP Requests      │                     │
+           └─────────────────────┼─────────────────────┘
+                                 │
+                                 ▼
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                       LAYER 2: BACKEND SERVER                           │
+└─────────────────────────────────────────────────────────────────────────┘
+
+                    ┌──────────────────────────┐
+                    │   FLASK WEB SERVER       │
+                    │      (app.py)            │
+                    │                          │
+                    │  Routes:                 │
+                    │  • /patient              │
+                    │  • /doctor               │
+                    │  • /pharmacy             │
+                    │                          │
+                    │  API Endpoints:          │
+                    │  • /api/patient-chat     │
+                    │  • /api/send_prescription│
+                    │  • /api/get_prescriptions│
+                    │  • /api/update_status    │
+                    └────────┬─────────────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+              ▼              ▼              ▼
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      LAYER 3: DATA & SERVICES                           │
+└─────────────────────────────────────────────────────────────────────────┘
+
+    ┌──────────────┐      ┌──────────────┐      ┌──────────────┐
+    │   SQLite     │      │  JSON FILES  │      │  GEMINI AI   │
+    │  DATABASE    │      │              │      │     API      │
+    │              │      │              │      │              │
+    │ • Patients   │      │ • Rx Data    │      │ • Chat       │
+    │ • Vitals     │      │ • Messages   │      │ • Analysis   │
+    │ • Labs       │      │ • History    │      │ • Diagnosis  │
+    └──────────────┘      └──────────────┘      └──────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════
+                          COMPLETE USER FLOWS
+═══════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        PATIENT JOURNEY FLOW                             │
+└─────────────────────────────────────────────────────────────────────────┘
+
+    START
+      │
+      ▼
+  [Open Portal]
+      │
+      ▼
+  ┌─────────┐
+  │ OPTIONS │
+  └────┬────┘
+       │
+   ┌───┴───┬────────┬────────┐
+   │       │        │        │
+   ▼       ▼        ▼        ▼
+[AI Chat][Video][Records][Track Rx]
+   │       │        │        │
+   │       │        │        │
+   ▼       ▼        ▼        ▼
+[Response][Consult][View][Status]
+   │       │        │        │
+   └───────┴────────┴────────┘
+            │
+            ▼
+          [END]
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     AI CHAT FLOW (DETAILED)                             │
+└─────────────────────────────────────────────────────────────────────────┘
+
+Patient Types Question
+         │
+         ▼
+Frontend JavaScript (ptSend)
+         │
+         ▼
+POST /api/patient-chat
+Body: { "message": "..." }
+         │
+         ▼
+Backend Receives Request
+         │
+         ▼
+Validates Message & API Key
+         │
+         ▼
+Sends to Gemini AI
+model.generate_content()
+         │
+         ▼
+AI Processes & Generates Response
+         │
+         ▼
+Backend Formats Response
+{ "response": "...", "status": "success" }
+         │
+         ▼
+Frontend Displays in Chat
+ptAddMessage(response, 'bot')
+         │
+         ▼
+Patient Sees Answer
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    PRESCRIPTION FLOW (DETAILED)                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+Doctor Fills Prescription Form
+         │
+         ▼
+Clicks "Send to Pharmacy"
+         │
+         ▼
+POST /api/send_prescription
+Body: {
+  patient_id: "P123",
+  medicines: [...],
+  priority: "High",
+  notes: "..."
+}
+         │
+         ▼
+Backend Generates Rx ID (RX0001)
+         │
+         ▼
+Saves to prescriptions.json
+         │
+         ▼
+┌────────┴────────┬────────────┐
+│                 │            │
+▼                 ▼            ▼
+Doctor Notified   Pharmacy     Patient
+"Rx Sent"        Receives      Notified
+                 Notification  "New Rx"
+                      │
+                      ▼
+              Pharmacy Views Rx
+                      │
+                      ▼
+              Clicks "Start Preparing"
+                      │
+                      ▼
+              POST /api/update_status
+              { status: "Preparing" }
+                      │
+                      ▼
+              Patient Sees Update
+              "Medicine Being Prepared"
+                      │
+                      ▼
+              Pharmacy Completes
+                      │
+                      ▼
+              Clicks "Mark as Ready"
+                      │
+                      ▼
+              POST /api/update_status
+              { status: "Ready" }
+                      │
+                      ▼
+              Patient Notified
+              "Medicine Ready for Pickup"
+                      │
+                      ▼
+              Medicine Delivered
+                      │
+                      ▼
+              Status: "Delivered"
+                      │
+                      ▼
+                    [END]
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      DOCTOR WORKFLOW                                    │
+└─────────────────────────────────────────────────────────────────────────┘
+
+    START
+      │
+      ▼
+[Open Doctor Portal]
+      │
+      ▼
+[Enter Patient ID]
+      │
+      ▼
+GET /api/get_patient_data
+      │
+      ▼
+[Display Patient Info]
+  • Demographics
+  • Vitals
+  • Lab Results
+  • History
+      │
+      ▼
+[Doctor Clicks "AI Analysis"]
+      │
+      ▼
+Send Data to Gemini AI
+      │
+      ▼
+AI Generates:
+  • Diagnosis Suggestions
+  • Recommended Tests
+  • Treatment Plan
+  • Risk Assessment
+      │
+      ▼
+[Doctor Reviews AI Output]
+      │
+      ▼
+[Doctor Makes Decision]
+      │
+   ┌──┴──┐
+   │     │
+   ▼     ▼
+[Send Rx][Message Pharmacy]
+   │     │
+   └──┬──┘
+      │
+      ▼
+    [END]
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    PHARMACY WORKFLOW                                    │
+└─────────────────────────────────────────────────────────────────────────┘
+
+    START
+      │
+      ▼
+[Open Pharmacy Portal]
+      │
+      ▼
+[Dashboard Displays]
+  • Pending: 5
+  • Preparing: 3
+  • Ready: 2
+  • Messages: 1
+      │
+      ▼
+[View Prescriptions]
+      │
+      ▼
+GET /api/get_prescriptions
+      │
+      ▼
+[List All Prescriptions]
+      │
+      ▼
+[Pharmacist Clicks Prescription]
+      │
+      ▼
+[Modal Shows Details]
+  • Patient Info
+  • Medicines List
+  • Dosage & Instructions
+  • Priority
+  • Doctor Notes
+      │
+      ▼
+[Pharmacist Actions]
+      │
+   ┌──┴──┬──────┐
+   │     │      │
+   ▼     ▼      ▼
+[Start][Ready][Delivered]
+   │     │      │
+   └──┬──┴──┬───┘
+      │     │
+      ▼     ▼
+[Update Status]
+      │
+      ▼
+POST /api/update_status
+      │
+      ▼
+[Patient Notified]
+      │
+      ▼
+    [END]
+
+
+═══════════════════════════════════════════════════════════════════════════
+                          DATA FLOW DIAGRAM
+═══════════════════════════════════════════════════════════════════════════
+
+┌─────────┐
+│  USER   │
+└────┬────┘
+     │ 1. HTTP Request
+     ▼
+┌──────────────────┐
+│  FLASK SERVER    │
+│                  │
+│  • Routing       │
+│  • Validation    │
+│  • Business Logic│
+└────┬─────────────┘
+     │
+     │ 2. Query/Store
+     │
+  ┌──┴──┬─────┬─────┐
+  │     │     │     │
+  ▼     ▼     ▼     ▼
+┌───┐ ┌───┐ ┌───┐ ┌───┐
+│DB │ │JSON│ │AI │ │LOG│
+└─┬─┘ └─┬─┘ └─┬─┘ └───┘
+  │     │     │
+  │ 3. Return Data
+  │     │     │
+  └──┬──┴─────┘
+     │
+     ▼
+┌──────────────────┐
+│  FLASK SERVER    │
+│  • Format        │
+│  • Response      │
+└────┬─────────────┘
+     │ 4. JSON Response
+     ▼
+┌─────────┐
+│  USER   │
+└─────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════
+                        SMART CITY INTEGRATION
+═══════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    SMART CITY ECOSYSTEM                                 │
+└─────────────────────────────────────────────────────────────────────────┘
+
+    ┌──────────────────────────────────────────────────┐
+    │           SMART CITY PLATFORM                    │
+    └──────────────────────────────────────────────────┘
+                          │
+        ┌─────────────────┼─────────────────┐
+        │                 │                 │
+        ▼                 ▼                 ▼
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│   MEDCORE    │  │    SMART     │  │    SMART     │
+│      AI      │  │ TRANSPORT    │  │  GOVERNANCE  │
+│              │  │              │  │              │
+│ Healthcare   │  │ Delivery     │  │ Health Data  │
+│ Services     │  │ Routes       │  │ Analytics    │
+└──────────────┘  └──────────────┘  └──────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════
+                          KEY METRICS
+═══════════════════════════════════════════════════════════════════════════
+
+┌──────────────┬──────────────┬──────────────┬──────────────┐
+│   DIGITAL    │  EFFICIENT   │  ACCESSIBLE  │  SUSTAINABLE │
+├──────────────┼──────────────┼──────────────┼──────────────┤
+│ 100%         │ 70%          │ 24/7         │ 60%          │
+│ Paperless    │ Faster       │ Available    │ Less Traffic │
+└──────────────┴──────────────┴──────────────┴──────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════
+                        TECHNOLOGY STACK
+═══════════════════════════════════════════════════════════════════════════
+
+FRONTEND:
+  • HTML5, CSS3, JavaScript
+  • FontAwesome Icons
+  • 3D Animations
+  • Responsive Design
+
+BACKEND:
+  • Python 3.x
+  • Flask Framework
+  • Google Gemini AI
+  • SQLAlchemy ORM
+
+DATA:
+  • SQLite Database
+  • JSON File Storage
+  • Pandas Processing
+  • Real-time Updates
+
+
+═══════════════════════════════════════════════════════════════════════════
+                    END OF FLOWCHART
+═══════════════════════════════════════════════════════════════════════════

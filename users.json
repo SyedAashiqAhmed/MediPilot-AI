@@ -1,0 +1,70 @@
+[
+  {
+    "id": "U0001",
+    "user_id": "P12345",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1234567890",
+    "role": "patient",
+    "status": "active",
+    "registered_at": "2025-10-01T10:00:00",
+    "last_login": "2025-10-30T14:30:00"
+  },
+  {
+    "id": "U0002",
+    "user_id": "P1234511111111",
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "phone": "+1234567891",
+    "role": "patient",
+    "status": "active",
+    "registered_at": "2025-09-15T09:00:00",
+    "last_login": "2025-10-29T16:45:00"
+  },
+  {
+    "id": "U0003",
+    "user_id": "D001",
+    "name": "Dr. Smith",
+    "email": "dr.smith@medcore.ai",
+    "phone": "+1234567892",
+    "role": "doctor",
+    "specialization": "General Medicine",
+    "status": "active",
+    "registered_at": "2025-08-01T08:00:00",
+    "last_login": "2025-10-30T18:00:00"
+  },
+  {
+    "id": "U0004",
+    "user_id": "D002",
+    "name": "Dr. Johnson",
+    "email": "dr.johnson@medcore.ai",
+    "phone": "+1234567893",
+    "role": "doctor",
+    "specialization": "Cardiology",
+    "status": "active",
+    "registered_at": "2025-08-01T08:00:00",
+    "last_login": "2025-10-30T17:30:00"
+  },
+  {
+    "id": "U0005",
+    "user_id": "PH001",
+    "name": "Pharmacist Mike",
+    "email": "mike@medcore.pharmacy",
+    "phone": "+1234567894",
+    "role": "pharmacist",
+    "status": "active",
+    "registered_at": "2025-08-15T09:00:00",
+    "last_login": "2025-10-30T18:10:00"
+  },
+  {
+    "id": "U0006",
+    "user_id": "P99999",
+    "name": "Robert Brown",
+    "email": "robert.brown@example.com",
+    "phone": "+1234567895",
+    "role": "patient",
+    "status": "inactive",
+    "registered_at": "2025-07-20T11:00:00",
+    "last_login": "2025-09-15T10:00:00"
+  }
+]

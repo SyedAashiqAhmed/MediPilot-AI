@@ -1,0 +1,22 @@
+[
+  {
+    "id": "ALERT0001",
+    "patient_id": "P12345",
+    "patient_name": "John Doe",
+    "alert_type": "critical",
+    "condition": "High Blood Pressure & Elevated Heart Rate",
+    "vitals": {
+      "bp": "140/90",
+      "hr": 95,
+      "spo2": 95
+    },
+    "symptoms": "fatigue, headache, nausea",
+    "ai_assessment": "Patient showing signs of hypertension with elevated heart rate. Immediate medical attention recommended.",
+    "severity": "high",
+    "status": "pending",
+    "created_at": "2025-10-30T14:30:00",
+    "forwarded_to_hospital": false,
+    "hospital_name": null,
+    "resolved_at": null
+  }
+]

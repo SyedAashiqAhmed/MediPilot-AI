@@ -1,4 +1,5 @@
 Flask
+Flask-SQLAlchemy
 gunicorn
 google-generativeai
 pandas
@@ -6,3 +7,6 @@ matplotlib
 python-dotenv
 Pillow
 werkzeug
+requests
+psycopg2-binary
+reportlab

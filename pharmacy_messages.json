@@ -1,0 +1,58 @@
+[
+  {
+    "id": "MSG0001",
+    "from_name": "Dr. Smith",
+    "message": "ss",
+    "prescription_id": null,
+    "created_at": "2025-10-30T12:12:23.259859",
+    "read": true
+  },
+  {
+    "id": "MSG0002",
+    "from_name": "Dr. Smith",
+    "message": "s",
+    "prescription_id": null,
+    "created_at": "2025-10-30T12:20:51.404097",
+    "read": true
+  },
+  {
+    "id": "MSG0003",
+    "from_name": "Dr. Smith",
+    "message": "ss",
+    "prescription_id": null,
+    "created_at": "2025-10-30T12:25:50.139027",
+    "read": true
+  },
+  {
+    "id": "MSG0004",
+    "from_name": "Dr. Smith",
+    "message": "Please prepare this prescription urgently. Patient has high fever and throat infection.",
+    "prescription_id": "RX0001",
+    "created_at": "2025-10-30T12:26:56.131867",
+    "read": true
+  },
+  {
+    "id": "MSG0005",
+    "from_name": "Dr. Smith",
+    "message": "dd",
+    "prescription_id": null,
+    "created_at": "2025-10-30T12:34:08.354638",
+    "read": true
+  },
+  {
+    "id": "MSG0006",
+    "from_name": "Dr. Smith",
+    "message": "Please prepare this prescription urgently. Patient has high fever.",
+    "prescription_id": "RX0001",
+    "created_at": "2025-10-30T12:39:15.635435",
+    "read": false
+  },
+  {
+    "id": "MSG0007",
+    "from_name": "Dr. Smith",
+    "message": "Please prepare this prescription urgently. Patient has high fever.",
+    "prescription_id": "RX0001",
+    "created_at": "2025-10-30T12:40:08.630501",
+    "read": true
+  }
+]

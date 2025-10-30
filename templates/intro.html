@@ -3,19 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClinicalAI - Advanced Medical Intelligence Platform</title>
+    <title>MedCore AI - Enterprise Medical Intelligence Platform</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='modern-framework.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='animations.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='3d-effects.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --medical-blue: #0066cc;
-            --medical-green: #00cc66;
-            --medical-red: #cc0066;
-            --medical-cyan: #00cccc;
-            --medical-purple: #6600cc;
-            --medical-gold: #ffcc00;
+            --primary-blue: #1e40af;
+            --primary-teal: #0891b2;
+            --primary-green: #059669;
+            --accent-blue: #3b82f6;
+            --accent-teal: #06b6d4;
+            --neutral-50: #f8fafc;
+            --neutral-100: #f1f5f9;
+            --neutral-200: #e2e8f0;
+            --neutral-300: #cbd5e1;
+            --neutral-400: #94a3b8;
+            --neutral-500: #64748b;
+            --neutral-600: #475569;
+            --neutral-700: #334155;
+            --neutral-800: #1e293b;
+            --neutral-900: #0f172a;
         }
 
         * {
@@ -25,237 +35,470 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0a 100%);
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            color: var(--neutral-700);
         }
 
-        /* Medical Grid Background */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(0, 204, 102, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 204, 102, 0.1) 1px, transparent 1px);
-            background-size: 40px 40px;
-            animation: medical-grid-pulse 4s ease-in-out infinite;
-            z-index: 1;
-        }
-
-        /* DNA Helix Animation */
-        .dna-helix {
-            position: fixed;
+        /* Professional Header */
+        .header {
+            background: white;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            position: sticky;
             top: 0;
-            left: 10%;
-            width: 100px;
-            height: 100vh;
-            z-index: 2;
+            z-index: 50;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-800);
+            line-height: 1;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--neutral-500);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--neutral-50) 0%, white 100%);
+            padding: 4rem 0 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            inset: 0;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="medical-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="2" fill="%23e2e8f0" opacity="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(%23medical-pattern)"/></svg>');
+            opacity: 0.3;
+        }
+
+        /* 3D DNA Helix Animation */
+        .dna-helix {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            height: 400px;
+            perspective: 1000px;
+            z-index: 1;
+            opacity: 0.15;
         }
 
         .dna-strand {
             position: absolute;
-            width: 4px;
+            width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, var(--medical-cyan), var(--medical-blue));
-            border-radius: 2px;
-            animation: dna-rotate 8s linear infinite;
+            animation: rotate3d 20s linear infinite;
         }
 
-        .dna-strand:nth-child(2) {
-            left: 50px;
-            animation-delay: -4s;
-        }
-
-        .dna-base {
+        .dna-strand::before,
+        .dna-strand::after {
+            content: '';
             position: absolute;
-            width: 50px;
-            height: 2px;
-            background: var(--medical-green);
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #1e40af, #0891b2);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(30, 64, 175, 0.5);
+        }
+
+        .dna-strand::before {
             left: 0;
-            animation: dna-base-glow 2s ease-in-out infinite alternate;
+            animation: dnaMove 4s ease-in-out infinite;
         }
 
-        /* Medical Robot 3D */
-        .medical-robot {
-            position: fixed;
-            right: 5%;
-            top: 20%;
-            width: 200px;
-            height: 300px;
-            z-index: 3;
-            transform-style: preserve-3d;
-            animation: robot-float 6s ease-in-out infinite;
+        .dna-strand::after {
+            right: 0;
+            animation: dnaMove 4s ease-in-out infinite reverse;
         }
 
-        .robot-body {
+        .strand-2 {
+            animation-delay: -10s;
+        }
+
+        @keyframes rotate3d {
+            0% { transform: rotateY(0deg) rotateX(0deg); }
+            100% { transform: rotateY(360deg) rotateX(360deg); }
+        }
+
+        @keyframes dnaMove {
+            0%, 100% { top: 0%; }
+            50% { top: 90%; }
+        }
+
+        /* Floating Medical Icons */
+        .floating-medical-icons {
             position: absolute;
-            width: 120px;
-            height: 160px;
-            background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
-            border-radius: 20px;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) rotateY(15deg);
-            box-shadow: 
-                0 20px 40px rgba(0, 204, 102, 0.3),
-                inset 0 2px 10px rgba(255, 255, 255, 0.1);
-        }
-
-        .robot-head {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(145deg, #3a3a4e, #2a2a3e);
-            border-radius: 50%;
-            left: 50%;
-            top: -40px;
-            transform: translateX(-50%);
-            box-shadow: 0 10px 20px rgba(0, 102, 204, 0.4);
-        }
-
-        .robot-eye {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: var(--medical-cyan);
-            border-radius: 50%;
-            top: 30px;
-            animation: robot-eye-blink 3s ease-in-out infinite;
-            box-shadow: 0 0 15px var(--medical-cyan);
-        }
-
-        .robot-eye.left { left: 20px; }
-        .robot-eye.right { right: 20px; animation-delay: 0.5s; }
-
-        .robot-arm {
-            position: absolute;
-            width: 15px;
-            height: 80px;
-            background: linear-gradient(145deg, #2a2a3e, #1a1a2e);
-            border-radius: 8px;
-            top: 20px;
-            animation: robot-arm-move 4s ease-in-out infinite;
-        }
-
-        .robot-arm.left { left: -20px; }
-        .robot-arm.right { right: -20px; animation-delay: 2s; }
-
-        /* Medical Particles */
-        .medical-particles {
-            position: fixed;
             inset: 0;
-            z-index: 2;
+            z-index: 1;
             pointer-events: none;
         }
 
-        .particle {
+        .medical-icon {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: var(--medical-green);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 50%;
-            animation: particle-float 15s linear infinite;
-            opacity: 0.7;
-        }
-
-        .particle:nth-child(2n) { background: var(--medical-cyan); animation-duration: 12s; }
-        .particle:nth-child(3n) { background: var(--medical-blue); animation-duration: 18s; }
-        .particle:nth-child(4n) { background: var(--medical-purple); animation-duration: 20s; }
-
-        /* Main Container */
-        .hero-container {
-            position: relative;
-            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10;
-            padding: 2rem;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            box-shadow: 0 8px 24px rgba(30, 64, 175, 0.2);
+            animation: floatMedical 6s ease-in-out infinite;
+            cursor: pointer;
+            pointer-events: all;
+            transition: all 0.3s ease;
         }
 
-        .main-content {
+        .medical-icon:hover {
+            transform: scale(1.2) rotate(360deg);
+            box-shadow: 0 12px 32px rgba(30, 64, 175, 0.4);
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            color: white;
+        }
+
+        .medical-icon:nth-child(1) { animation-delay: 0s; }
+        .medical-icon:nth-child(2) { animation-delay: 1s; }
+        .medical-icon:nth-child(3) { animation-delay: 2s; }
+        .medical-icon:nth-child(4) { animation-delay: 3s; }
+        .medical-icon:nth-child(5) { animation-delay: 4s; }
+        .medical-icon:nth-child(6) { animation-delay: 5s; }
+
+        @keyframes floatMedical {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(-5deg);
+            }
+            75% {
+                transform: translateY(-15px) rotate(3deg);
+            }
+        }
+
+        /* Pulse Wave Animation */
+        .pulse-wave {
+            position: absolute;
+            left: 5%;
+            top: 50%;
+            width: 300px;
+            height: 100px;
+            transform: translateY(-50%);
+            z-index: 1;
+            opacity: 0.2;
+        }
+
+        .pulse-wave::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                var(--primary-teal) 10%, 
+                var(--primary-teal) 15%, 
+                transparent 20%,
+                transparent 30%,
+                var(--primary-teal) 40%,
+                var(--primary-teal) 60%,
+                transparent 70%,
+                transparent 80%,
+                var(--primary-teal) 85%,
+                var(--primary-teal) 90%,
+                transparent 100%
+            );
+            background-size: 200% 4px;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: pulseWave 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseWave {
+            0% {
+                background-position: -200% center;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                background-position: 200% center;
+                opacity: 0;
+            }
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-content {
             text-align: center;
             max-width: 800px;
-            position: relative;
-            z-index: 15;
+            margin: 0 auto;
         }
 
-        .logo-container {
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
             margin-bottom: 2rem;
-            position: relative;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
         }
 
-        .medical-cross {
-            display: inline-block;
-            width: 80px;
-            height: 80px;
-            position: relative;
-            margin-bottom: 1rem;
-            animation: medical-cross-pulse 3s ease-in-out infinite;
+        .hero-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--neutral-900);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
         }
 
-        .cross-horizontal, .cross-vertical {
-            position: absolute;
-            background: linear-gradient(45deg, var(--medical-red), var(--medical-cyan));
-            border-radius: 4px;
-            box-shadow: 0 0 30px rgba(0, 204, 102, 0.6);
-        }
-
-        .cross-horizontal {
-            width: 80px;
-            height: 20px;
-            top: 30px;
-            left: 0;
-        }
-
-        .cross-vertical {
-            width: 20px;
-            height: 80px;
-            top: 0;
-            left: 30px;
-        }
-
-        .main-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 4rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--medical-cyan), var(--medical-blue), var(--medical-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            animation: title-glow 4s ease-in-out infinite;
-            text-shadow: 0 0 50px rgba(0, 204, 102, 0.5);
-        }
-
-        .subtitle {
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.8);
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--neutral-600);
+            line-height: 1.6;
             margin-bottom: 3rem;
-            font-weight: 300;
-            letter-spacing: 1px;
+            font-weight: 400;
         }
 
-        .portal-cards {
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            color: white;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 64, 175, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--neutral-700);
+            border: 2px solid var(--neutral-200);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 6rem 0;
+            background: white;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .features-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: 1rem;
+        }
+
+        .features-subtitle {
+            font-size: 1.125rem;
+            color: var(--neutral-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-top: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--neutral-50);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--neutral-200);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-blue);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--neutral-900);
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-description {
+            color: var(--neutral-600);
+            line-height: 1.6;
+        }
+
+        /* Portal Cards */
+        .portals-section {
+            padding: 6rem 0;
+            background: var(--neutral-50);
+        }
+
+        .portals-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .portals-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .portals-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: 1rem;
+        }
+
+        .portals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .portal-card {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(0, 204, 102, 0.3);
-            border-radius: 2rem;
+            background: white;
+            border-radius: 20px;
             padding: 3rem 2rem;
             text-decoration: none;
-            color: white;
-            transition: all 0.6s ease;
-            transform-style: preserve-3d;
+            color: inherit;
+            border: 2px solid var(--neutral-200);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
@@ -263,337 +506,933 @@
         .portal-card::before {
             content: '';
             position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, transparent, rgba(0, 204, 102, 0.1), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .portal-card:hover::before {
-            transform: translateX(100%);
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
         }
 
         .portal-card:hover {
-            transform: translateY(-20px) rotateY(10deg) rotateX(5deg);
-            border-color: var(--medical-cyan);
-            box-shadow: 
-                0 30px 60px rgba(0, 204, 102, 0.3),
-                0 0 100px rgba(0, 204, 204, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-blue);
         }
 
         .portal-icon {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            display: block;
-            animation: icon-pulse 3s ease-in-out infinite;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 2rem;
         }
 
-        .patient-card .portal-icon { animation-delay: 0s; }
-        .doctor-card .portal-icon { animation-delay: 1.5s; }
-
         .portal-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 2rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
             font-weight: 700;
+            color: var(--neutral-900);
             margin-bottom: 1rem;
-            color: var(--medical-cyan);
         }
 
         .portal-description {
-            font-size: 1.1rem;
+            color: var(--neutral-600);
             line-height: 1.6;
-            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
         }
 
-        /* Medical Stats Display */
-        .medical-stats {
-            position: fixed;
-            bottom: 2rem;
-            left: 2rem;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(0, 204, 102, 0.3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            z-index: 20;
-            font-family: 'JetBrains Mono', monospace;
+        .portal-features {
+            list-style: none;
+            margin-bottom: 2rem;
         }
 
-        .stat-item {
+        .portal-features li {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--neutral-600);
             margin-bottom: 0.5rem;
-            color: var(--medical-green);
-            font-size: 0.9rem;
+            font-size: 0.875rem;
         }
 
-        .stat-value {
-            color: var(--medical-cyan);
+        .portal-features li::before {
+            content: '✓';
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+
+        .portal-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-blue);
             font-weight: 600;
+            text-decoration: none;
         }
 
-        /* Heartbeat Monitor */
-        .heartbeat-monitor {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            width: 200px;
-            height: 60px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--medical-red);
-            border-radius: 0.5rem;
-            z-index: 20;
-            overflow: hidden;
+        /* Footer */
+        .footer {
+            background: var(--neutral-900);
+            color: var(--neutral-300);
+            padding: 3rem 0 2rem;
         }
 
-        .heartbeat-line {
-            position: absolute;
-            bottom: 50%;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--medical-red);
-            animation: heartbeat-pulse 2s ease-in-out infinite;
-            box-shadow: 0 0 10px var(--medical-red);
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
-        /* Animations */
-        @keyframes medical-grid-pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
-        @keyframes dna-rotate {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
+        .footer-section h3 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
-        @keyframes dna-base-glow {
-            0% { box-shadow: 0 0 5px var(--medical-green); }
-            100% { box-shadow: 0 0 20px var(--medical-green); }
+        .footer-section p,
+        .footer-section a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            line-height: 1.6;
         }
 
-        @keyframes robot-float {
-            0%, 100% { transform: translateY(0px) rotateY(15deg); }
-            50% { transform: translateY(-20px) rotateY(-15deg); }
+        .footer-section a:hover {
+            color: var(--accent-teal);
         }
 
-        @keyframes robot-eye-blink {
-            0%, 90%, 100% { opacity: 1; }
-            95% { opacity: 0; }
-        }
-
-        @keyframes robot-arm-move {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(15deg); }
-        }
-
-        @keyframes particle-float {
-            0% {
-                transform: translateY(100vh) translateX(0px);
-                opacity: 0;
-            }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% {
-                transform: translateY(-100px) translateX(100px);
-                opacity: 0;
-            }
-        }
-
-        @keyframes medical-cross-pulse {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.1) rotate(5deg); }
-        }
-
-        @keyframes title-glow {
-            0%, 100% { filter: brightness(1) drop-shadow(0 0 20px rgba(0, 204, 102, 0.5)); }
-            50% { filter: brightness(1.2) drop-shadow(0 0 40px rgba(0, 204, 204, 0.8)); }
-        }
-
-        @keyframes icon-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        @keyframes heartbeat-pulse {
-            0% { transform: scaleX(0); }
-            20% { transform: scaleX(1); }
-            40% { transform: scaleX(0.8); }
-            60% { transform: scaleX(1.2); }
-            80% { transform: scaleX(0.9); }
-            100% { transform: scaleX(0); }
+        .footer-bottom {
+            border-top: 1px solid var(--neutral-800);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--neutral-500);
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .main-title { font-size: 2.5rem; }
-            .portal-cards { 
-                grid-template-columns: 1fr; 
-                gap: 2rem; 
+            .hero-title {
+                font-size: 2.5rem;
             }
-            .medical-robot { display: none; }
-            .dna-helix { display: none; }
-            .medical-stats { 
-                position: relative; 
-                margin: 2rem auto; 
-                width: fit-content;
+            
+            .features-grid,
+            .portals-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
             }
         }
+
+    
     </style>
 </head>
 <body>
-    <!-- DNA Helix -->
-    <div class="dna-helix">
-        <div class="dna-strand">
-            <div class="dna-base" style="top: 10%;"></div>
-            <div class="dna-base" style="top: 30%;"></div>
-            <div class="dna-base" style="top: 50%;"></div>
-            <div class="dna-base" style="top: 70%;"></div>
-            <div class="dna-base" style="top: 90%;"></div>
-        </div>
-        <div class="dna-strand">
-            <div class="dna-base" style="top: 20%;"></div>
-            <div class="dna-base" style="top: 40%;"></div>
-            <div class="dna-base" style="top: 60%;"></div>
-            <div class="dna-base" style="top: 80%;"></div>
-        </div>
-    </div>
-
-    <!-- Medical Robot -->
-    <div class="medical-robot">
-        <div class="robot-body">
-            <div class="robot-head">
-                <div class="robot-eye left"></div>
-                <div class="robot-eye right"></div>
-            </div>
-            <div class="robot-arm left"></div>
-            <div class="robot-arm right"></div>
-        </div>
-    </div>
-
-    <!-- Medical Particles -->
-    <div class="medical-particles">
-        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
-        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
-        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
-        <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
-        <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
-        <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
-        <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
-        <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
-        <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
-    </div>
-
-    <!-- Heartbeat Monitor -->
-    <div class="heartbeat-monitor">
-        <div class="heartbeat-line"></div>
-    </div>
-
-    <!-- Medical Stats -->
-    <div class="medical-stats">
-        <div class="stat-item">
-            <span>System Status:</span>
-            <span class="stat-value">ONLINE</span>
-        </div>
-        <div class="stat-item">
-            <span>AI Models:</span>
-            <span class="stat-value">ACTIVE</span>
-        </div>
-        <div class="stat-item">
-            <span>Patients:</span>
-            <span class="stat-value">2,847</span>
-        </div>
-        <div class="stat-item">
-            <span>Accuracy:</span>
-            <span class="stat-value">99.7%</span>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="hero-container">
-        <div class="main-content">
-            <div class="logo-container">
-                <div class="medical-cross">
-                    <div class="cross-horizontal"></div>
-                    <div class="cross-vertical"></div>
+    <!-- Professional Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-title">MedCore AI</div>
+                    <div class="logo-subtitle">Enterprise Medical Platform</div>
                 </div>
             </div>
-            
-            <h1 class="main-title">ClinicalAI</h1>
-            <p class="subtitle">Advanced Medical Intelligence Platform</p>
-            
-            <div class="portal-cards">
-                <a href="/patient" class="portal-card patient-card">
-                    <span class="portal-icon">🏥</span>
-                    <h2 class="portal-title">Patient Portal</h2>
-                    <p class="portal-description">
-                        Submit medical reports, upload images, and receive AI-powered health insights with advanced diagnostic capabilities.
+            <nav class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#solutions">Solutions</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background"></div>
+        
+        <!-- 3D DNA Helix Animation -->
+        <div class="dna-helix">
+            <div class="dna-strand strand-1"></div>
+            <div class="dna-strand strand-2"></div>
+        </div>
+        
+        <!-- Animated Medical Icons -->
+        <div class="floating-medical-icons">
+            <div class="medical-icon" style="top: 15%; left: 10%;"><i class="fas fa-heartbeat"></i></div>
+            <div class="medical-icon" style="top: 25%; right: 15%;"><i class="fas fa-pills"></i></div>
+            <div class="medical-icon" style="bottom: 30%; left: 8%;"><i class="fas fa-syringe"></i></div>
+            <div class="medical-icon" style="bottom: 20%; right: 12%;"><i class="fas fa-microscope"></i></div>
+            <div class="medical-icon" style="top: 40%; left: 5%;"><i class="fas fa-dna"></i></div>
+            <div class="medical-icon" style="top: 60%; right: 8%;"><i class="fas fa-stethoscope"></i></div>
+        </div>
+        
+        <!-- Pulse Wave Animation -->
+        <div class="pulse-wave"></div>
+        
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-award"></i>
+                    <span>FDA Compliant • HIPAA Secure • Enterprise Ready</span>
+                </div>
+                <h1 class="hero-title">Next-Generation Medical Intelligence Platform</h1>
+                <p class="hero-subtitle">
+                    Empowering healthcare professionals with AI-driven diagnostics, patient management, and clinical decision support. 
+                    Trusted by leading hospitals and medical institutions worldwide.
+                </p>
+                <div class="hero-cta">
+                    <a href="/patient" class="btn btn-primary">
+                        <i class="fas fa-user-injured"></i>
+                        Patient Portal
+                    </a>
+                    <a href="/doctor" class="btn btn-secondary">
+                        <i class="fas fa-user-md"></i>
+                        Doctor Dashboard
+                    </a>
+                    <a href="/pharmacy" class="btn btn-secondary" style="background: linear-gradient(135deg, var(--primary-green), #047857);">
+                        <i class="fas fa-pills"></i>
+                        Pharmacy Portal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="features-container">
+            <div class="features-header">
+                <h2 class="features-title">Advanced Medical Intelligence</h2>
+                <p class="features-subtitle">
+                    Cutting-edge AI technology designed specifically for healthcare professionals and medical institutions
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">AI-Powered Diagnostics</h3>
+                    <p class="feature-description">
+                        Advanced machine learning algorithms analyze medical data with 99.7% accuracy, 
+                        supporting clinical decision-making and early disease detection.
                     </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">HIPAA Compliant Security</h3>
+                    <p class="feature-description">
+                        Enterprise-grade security with end-to-end encryption, audit trails, 
+                        and full HIPAA compliance to protect sensitive patient information.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Real-Time Analytics</h3>
+                    <p class="feature-description">
+                        Comprehensive dashboards and reporting tools provide real-time insights 
+                        into patient outcomes, treatment efficacy, and operational metrics.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3 class="feature-title">Seamless Integration</h3>
+                    <p class="feature-description">
+                        Easy integration with existing EHR systems, medical devices, 
+                        and hospital infrastructure through standardized APIs and protocols.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Futuristic Features Section -->
+    <section class="features-section" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 5rem 0;">
+        <div class="features-container">
+            <div class="features-header">
+                <h2 class="features-title" style="color: white;">🚀 Next-Generation Healthcare Technology</h2>
+                <p class="features-subtitle" style="color: rgba(255,255,255,0.8);">
+                    Experience the future of medicine with cutting-edge AI, real-time monitoring, and advanced predictive analytics
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1); box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title" style="color: white;">AI Health Predictor</h3>
+                    <p class="feature-description" style="color: rgba(255,255,255,0.7);">
+                        Advanced neural networks predict potential health risks up to 6 months in advance with 94% accuracy. 
+                        Proactive health management powered by deep learning.
+                    </p>
+                    <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border-left: 3px solid #8b5cf6;">
+                        <div style="color: #a78bfa; font-size: 0.875rem; font-weight: 600;">✨ Coming Soon</div>
+                    </div>
+                </div>
+
+                <div class="feature-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2); box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3 class="feature-title" style="color: white;">Real-Time Vital Monitoring</h3>
+                    <p class="feature-description" style="color: rgba(255,255,255,0.7);">
+                        IoT-enabled continuous monitoring of heart rate, blood pressure, oxygen levels, and more. 
+                        Instant alerts for abnormal readings with 24/7 AI surveillance.
+                    </p>
+                    <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(6, 182, 212, 0.1); border-radius: 8px; border-left: 3px solid #06b6d4;">
+                        <div style="color: #22d3ee; font-size: 0.875rem; font-weight: 600;">🔄 In Development</div>
+                    </div>
+                </div>
+
+                <div class="feature-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);">
+                        <i class="fas fa-microphone-alt"></i>
+                    </div>
+                    <h3 class="feature-title" style="color: white;">Voice-Activated Commands</h3>
+                    <p class="feature-description" style="color: rgba(255,255,255,0.7);">
+                        Hands-free navigation and data entry using natural language processing. 
+                        "Hey MedCore, show patient vitals" - it's that simple.
+                    </p>
+                    <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(16, 185, 129, 0.1); border-radius: 8px; border-left: 3px solid #10b981;">
+                        <div style="color: #34d399; font-size: 0.875rem; font-weight: 600;">🎤 Beta Testing</div>
+                    </div>
+                </div>
+
+                <div class="feature-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3 class="feature-title" style="color: white;">3D Medical Visualization</h3>
+                    <p class="feature-description" style="color: rgba(255,255,255,0.7);">
+                        Interactive 3D body models with organ-level detail. Visualize conditions, 
+                        plan surgeries, and explain diagnoses with immersive AR/VR technology.
+                    </p>
+                    <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(245, 158, 11, 0.1); border-radius: 8px; border-left: 3px solid #f59e0b;">
+                        <div style="color: #fbbf24; font-size: 0.875rem; font-weight: 600;">🔬 Research Phase</div>
+                    </div>
+                </div>
+
+                <div class="feature-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #ec4899, #db2777); box-shadow: 0 0 30px rgba(236, 72, 153, 0.5);">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3 class="feature-title" style="color: white;">Blockchain Health Records</h3>
+                    <p class="feature-description" style="color: rgba(255,255,255,0.7);">
+                        Immutable, decentralized health records with patient-controlled access. 
+                        Ultimate security and privacy with blockchain technology.
+                    </p>
+                    <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(236, 72, 153, 0.1); border-radius: 8px; border-left: 3px solid #ec4899;">
+                        <div style="color: #f472b6; font-size: 0.875rem; font-weight: 600;">🔐 Pilot Program</div>
+                    </div>
+                </div>
+
+                <div class="feature-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb); box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="feature-title" style="color: white;">Integrated Video Telemedicine</h3>
+                    <p class="feature-description" style="color: rgba(255,255,255,0.7);">
+                        HD video consultations with real-time vital sharing, screen annotation, 
+                        and AI-powered symptom analysis during calls.
+                    </p>
+                    <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border-left: 3px solid #3b82f6;">
+                        <div style="color: #60a5fa; font-size: 0.875rem; font-weight: 600;">📹 Active Development</div>
+                    </div>
+                </div>
+
+                <div class="feature-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #14b8a6, #0d9488); box-shadow: 0 0 30px rgba(20, 184, 166, 0.5);">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title" style="color: white;">Smart Health Assistant</h3>
+                    <p class="feature-description" style="color: rgba(255,255,255,0.7);">
+                        24/7 AI companion that learns your health patterns, reminds you of medications, 
+                        suggests lifestyle changes, and answers health questions instantly.
+                    </p>
+                    <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(20, 184, 166, 0.1); border-radius: 8px; border-left: 3px solid #14b8a6;">
+                        <div style="color: #2dd4bf; font-size: 0.875rem; font-weight: 600;">🤖 AI Training</div>
+                    </div>
+                </div>
+
+                <div class="feature-card" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #a855f7, #9333ea); box-shadow: 0 0 30px rgba(168, 85, 247, 0.5);">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <h3 class="feature-title" style="color: white;">Genomic Analysis Integration</h3>
+                    <p class="feature-description" style="color: rgba(255,255,255,0.7);">
+                        Personalized medicine based on genetic data. AI analyzes DNA to predict 
+                        drug responses, disease susceptibility, and optimal treatment plans.
+                    </p>
+                    <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(168, 85, 247, 0.1); border-radius: 8px; border-left: 3px solid #a855f7;">
+                        <div style="color: #c084fc; font-size: 0.875rem; font-weight: 600;">🧬 Partnership Phase</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tech Stats -->
+            <div style="margin-top: 4rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center;">
+                <div style="padding: 2rem; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size: 3rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem;">99.7%</div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.875rem;">AI Diagnostic Accuracy</div>
+                </div>
+                <div style="padding: 2rem; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size: 3rem; font-weight: 700; color: #06b6d4; margin-bottom: 0.5rem;">24/7</div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.875rem;">Real-Time Monitoring</div>
+                </div>
+                <div style="padding: 2rem; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size: 3rem; font-weight: 700; color: #10b981; margin-bottom: 0.5rem;">&lt;2s</div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.875rem;">Response Time</div>
+                </div>
+                <div style="padding: 2rem; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size: 3rem; font-weight: 700; color: #f59e0b; margin-bottom: 0.5rem;">256-bit</div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.875rem;">Encryption Security</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portal Cards Section -->
+    <section class="portals-section">
+        <div class="portals-container">
+            <div class="portals-header">
+                <h2 class="portals-title">Choose Your Portal</h2>
+            </div>
+            <div class="portals-grid">
+                <a href="/patient" class="portal-card">
+                    <div class="portal-icon">
+                        <i class="fas fa-user-injured"></i>
+                    </div>
+                    <h3 class="portal-title">Patient Portal</h3>
+                    <p class="portal-description">
+                        Secure patient interface for medical data submission, AI-powered health insights, 
+                        and comprehensive health monitoring.
+                    </p>
+                    <ul class="portal-features">
+                        <li>Upload medical reports and images</li>
+                        <li>AI-powered health analysis</li>
+                        <li>Secure data transmission</li>
+                        <li>Real-time health insights</li>
+                        <li>Treatment recommendations</li>
+                    </ul>
+                    <div class="portal-cta">
+                        Access Patient Portal
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </a>
                 
-                <a href="/doctor" class="portal-card doctor-card">
-                    <span class="portal-icon">👨‍⚕️</span>
-                    <h2 class="portal-title">Doctor Portal</h2>
+                <a href="/doctor" class="portal-card">
+                    <div class="portal-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3 class="portal-title">Doctor Dashboard</h3>
                     <p class="portal-description">
-                        Access comprehensive patient data, AI consultations, and advanced medical analysis tools with 3D visualizations.
+                        Comprehensive clinical dashboard with advanced analytics, patient management, 
+                        and AI-assisted diagnostic tools.
                     </p>
+                    <ul class="portal-features">
+                        <li>Patient data visualization</li>
+                        <li>Clinical decision support</li>
+                        <li>Advanced analytics dashboard</li>
+                        <li>Treatment outcome tracking</li>
+                        <li>Multi-patient comparison</li>
+                    </ul>
+                    <div class="portal-cta">
+                        Access Doctor Dashboard
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                
+                <a href="/pharmacy" class="portal-card" style="border-top: 4px solid var(--primary-green);">
+                    <div class="portal-icon" style="background: linear-gradient(135deg, var(--primary-green), #047857);">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <h3 class="portal-title">Pharmacy Portal</h3>
+                    <p class="portal-description">
+                        Complete pharmacy management system for prescription processing, medicine preparation, 
+                        and delivery tracking.
+                    </p>
+                    <ul class="portal-features">
+                        <li>Receive doctor prescriptions</li>
+                        <li>Manage medicine preparation</li>
+                        <li>Track delivery status</li>
+                        <li>Doctor-pharmacy messaging</li>
+                        <li>Priority handling system</li>
+                    </ul>
+                    <div class="portal-cta" style="background: linear-gradient(135deg, var(--primary-green), #047857);">
+                        Access Pharmacy Portal
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                
+                <a href="/admin" class="portal-card" style="border-top: 4px solid #9333ea;">
+                    <div class="portal-icon" style="background: linear-gradient(135deg, #9333ea, #7e22ce);">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3 class="portal-title">Admin Portal</h3>
+                    <p class="portal-description">
+                        Comprehensive admin dashboard for managing users, monitoring appointments, 
+                        and handling emergency alerts.
+                    </p>
+                    <ul class="portal-features">
+                        <li>Manage all users & accounts</li>
+                        <li>Monitor appointments</li>
+                        <li>Track pharmacy operations</li>
+                        <li>Emergency alert system</li>
+                        <li>Patient analytics</li>
+                    </ul>
+                    <div class="portal-cta" style="background: linear-gradient(135deg, #9333ea, #7e22ce);">
+                        Access Admin Portal
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </a>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MedCore AI</h3>
+                    <p>Leading the future of medical intelligence with AI-powered healthcare solutions trusted by medical professionals worldwide.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Solutions</h3>
+                    <p><a href="/patient">Patient Portal</a></p>
+                    <p><a href="/doctor">Doctor Dashboard</a></p>
+                    <p><a href="/pharmacy">Pharmacy Portal</a></p>
+                    <p><a href="/admin">Admin Portal</a></p>
+                    <p><a href="#analytics">Medical Analytics</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <p><a href="#about">About Us</a></p>
+                    <p><a href="#careers">Careers</a></p>
+                    <p><a href="#contact">Contact</a></p>
+                    <p><a href="#support">Support</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Compliance</h3>
+                    <p><a href="#privacy">Privacy Policy</a></p>
+                    <p><a href="#terms">Terms of Service</a></p>
+                    <p><a href="#hipaa">HIPAA Compliance</a></p>
+                    <p><a href="#security">Security</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MedCore AI. All rights reserved. | Enterprise Medical Intelligence Platform</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Add dynamic particle generation
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 5 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            
-            const colors = ['var(--medical-green)', 'var(--medical-cyan)', 'var(--medical-blue)', 'var(--medical-purple)'];
-            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-            
-            document.querySelector('.medical-particles').appendChild(particle);
-            
-            setTimeout(() => {
-                particle.remove();
-            }, 20000);
-        }
-
-        // Generate particles continuously
-        setInterval(createParticle, 2000);
-
-        // Add interactive hover effects
-        document.querySelectorAll('.portal-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-20px) rotateY(10deg) rotateX(5deg) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0px) rotateY(0deg) rotateX(0deg) scale(1)';
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
 
-        // Dynamic stats update
-        function updateStats() {
-            const patients = document.querySelector('.medical-stats .stat-item:nth-child(3) .stat-value');
-            const accuracy = document.querySelector('.medical-stats .stat-item:nth-child(4) .stat-value');
+        // Add scroll effect to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'white';
+                header.style.backdropFilter = 'none';
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards and portal cards
+        document.querySelectorAll('.feature-card, .portal-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Animated Counter for Stats
+        function animateCounter(element, target, duration = 2000) {
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
             
-            let patientCount = 2847;
-            let accuracyValue = 99.7;
-            
-            setInterval(() => {
-                patientCount += Math.floor(Math.random() * 3);
-                accuracyValue = (99.5 + Math.random() * 0.4).toFixed(1);
-                
-                patients.textContent = patientCount.toLocaleString();
-                accuracy.textContent = accuracyValue + '%';
-            }, 5000);
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
         }
 
-        updateStats();
+        // Trigger counters when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statElements = entry.target.querySelectorAll('[data-count]');
+                    statElements.forEach(el => {
+                        const target = parseInt(el.dataset.count);
+                        animateCounter(el, target);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Floating particles animation
+        function createParticles() {
+            const hero = document.querySelector('.hero-section');
+            if (!hero) return;
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${Math.random() * 4 + 2}px;
+                    height: ${Math.random() * 4 + 2}px;
+                    background: rgba(30, 64, 175, ${Math.random() * 0.5 + 0.2});
+                    border-radius: 50%;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation: float ${Math.random() * 10 + 10}s infinite ease-in-out;
+                    pointer-events: none;
+                `;
+                hero.appendChild(particle);
+            }
+        }
+
+        // Add floating animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% {
+                    transform: translate(0, 0) scale(1);
+                    opacity: 0.3;
+                }
+                50% {
+                    transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(1.5);
+                    opacity: 0.8;
+                }
+            }
+            
+            @keyframes pulse {
+                0%, 100% {
+                    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+                }
+                50% {
+                    box-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
+                }
+            }
+            
+            .feature-card:hover {
+                transform: translateY(-10px) scale(1.02);
+                transition: all 0.3s ease;
+            }
+            
+            .portal-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize particles
+        createParticles();
+
+        // Typing effect for hero title
+        const heroTitle = document.querySelector('.hero-title');
+        if (heroTitle) {
+            const text = heroTitle.textContent;
+            heroTitle.textContent = '';
+            let i = 0;
+            const typeWriter = () => {
+                if (i < text.length) {
+                    heroTitle.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            };
+            setTimeout(typeWriter, 500);
+        }
+
+        // Add glowing effect to feature icons
+        document.querySelectorAll('.feature-icon').forEach(icon => {
+            icon.style.animation = 'pulse 3s infinite';
+        });
+
+        // Real-time clock in footer
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true 
+            });
+            const clockElement = document.getElementById('live-clock');
+            if (clockElement) {
+                clockElement.textContent = `System Time: ${timeString}`;
+            }
+        }
+        
+        // Add live clock to footer
+        const footerBottom = document.querySelector('.footer-bottom p');
+        if (footerBottom) {
+            const clockSpan = document.createElement('span');
+            clockSpan.id = 'live-clock';
+            clockSpan.style.cssText = 'margin-left: 2rem; color: var(--primary-teal); font-weight: 600;';
+            footerBottom.appendChild(clockSpan);
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        // Add "scroll to explore" indicator
+        const hero = document.querySelector('.hero-section');
+        if (hero) {
+            const scrollIndicator = document.createElement('div');
+            scrollIndicator.innerHTML = `
+                <div style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); text-align: center; animation: bounce 2s infinite;">
+                    <div style="color: var(--primary-blue); font-size: 0.875rem; margin-bottom: 0.5rem; font-weight: 600;">Scroll to Explore</div>
+                    <i class="fas fa-chevron-down" style="color: var(--primary-blue); font-size: 1.5rem;"></i>
+                </div>
+            `;
+            hero.appendChild(scrollIndicator);
+            
+            // Add bounce animation
+            const bounceStyle = document.createElement('style');
+            bounceStyle.textContent = `
+                @keyframes bounce {
+                    0%, 100% { transform: translateX(-50%) translateY(0); }
+                    50% { transform: translateX(-50%) translateY(-10px); }
+                }
+            `;
+            document.head.appendChild(bounceStyle);
+        }
+
+        // Interactive Medical Icons with Tooltips
+        const medicalIconsData = [
+            { icon: 'fa-heartbeat', name: 'Cardiology', color: '#ef4444' },
+            { icon: 'fa-pills', name: 'Pharmacy', color: '#10b981' },
+            { icon: 'fa-syringe', name: 'Vaccination', color: '#3b82f6' },
+            { icon: 'fa-microscope', name: 'Laboratory', color: '#8b5cf6' },
+            { icon: 'fa-dna', name: 'Genetics', color: '#ec4899' },
+            { icon: 'fa-stethoscope', name: 'Diagnostics', color: '#06b6d4' }
+        ];
+
+        document.querySelectorAll('.medical-icon').forEach((icon, index) => {
+            const data = medicalIconsData[index];
+            
+            // Add tooltip
+            const tooltip = document.createElement('div');
+            tooltip.textContent = data.name;
+            tooltip.style.cssText = `
+                position: absolute;
+                bottom: -35px;
+                left: 50%;
+                transform: translateX(-50%) scale(0);
+                background: ${data.color};
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 8px;
+                font-size: 0.875rem;
+                font-weight: 600;
+                white-space: nowrap;
+                pointer-events: none;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            `;
+            icon.appendChild(tooltip);
+            
+            // Show tooltip on hover
+            icon.addEventListener('mouseenter', () => {
+                tooltip.style.transform = 'translateX(-50%) scale(1)';
+            });
+            
+            icon.addEventListener('mouseleave', () => {
+                tooltip.style.transform = 'translateX(-50%) scale(0)';
+            });
+            
+            // Click effect
+            icon.addEventListener('click', () => {
+                // Create ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    background: ${data.color};
+                    opacity: 0.6;
+                    animation: ripple 0.6s ease-out;
+                    pointer-events: none;
+                `;
+                icon.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+                
+                // Show info message
+                const message = document.createElement('div');
+                message.textContent = `${data.name} Services Available`;
+                message.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${data.color};
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 12px;
+                    font-weight: 600;
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+                    z-index: 10000;
+                    animation: slideIn 0.3s ease-out;
+                `;
+                document.body.appendChild(message);
+                
+                setTimeout(() => {
+                    message.style.animation = 'slideOut 0.3s ease-out';
+                    setTimeout(() => message.remove(), 300);
+                }, 2000);
+            });
+        });
+
+        // Add ripple animation
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+            @keyframes ripple {
+                0% {
+                    transform: scale(0);
+                    opacity: 0.6;
+                }
+                100% {
+                    transform: scale(2.5);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes slideIn {
+                from {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(rippleStyle);
+
+        // Make DNA helix interactive
+        const dnaHelix = document.querySelector('.dna-helix');
+        if (dnaHelix) {
+            dnaHelix.style.cursor = 'pointer';
+            dnaHelix.addEventListener('click', () => {
+                dnaHelix.style.animation = 'none';
+                setTimeout(() => {
+                    dnaHelix.style.animation = '';
+                }, 10);
+                
+                // Show DNA info
+                const dnaInfo = document.createElement('div');
+                dnaInfo.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-dna" style="font-size: 2rem;"></i>
+                        <div>
+                            <div style="font-weight: 700; margin-bottom: 0.25rem;">Genomic Analysis</div>
+                            <div style="font-size: 0.875rem; opacity: 0.9;">AI-powered DNA sequencing and analysis</div>
+                        </div>
+                    </div>
+                `;
+                dnaInfo.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #a855f7, #9333ea);
+                    color: white;
+                    padding: 1.5rem;
+                    border-radius: 16px;
+                    box-shadow: 0 12px 32px rgba(168, 85, 247, 0.3);
+                    z-index: 10000;
+                    animation: slideIn 0.3s ease-out;
+                    max-width: 300px;
+                `;
+                document.body.appendChild(dnaInfo);
+                
+                setTimeout(() => {
+                    dnaInfo.style.animation = 'slideOut 0.3s ease-out';
+                    setTimeout(() => dnaInfo.remove(), 300);
+                }, 3000);
+            });
+        }
+
+        console.log('🚀 MedCore AI - Next-Generation Healthcare Platform Loaded');
+        console.log('💡 Futuristic features initialized');
+        console.log('🔬 AI systems online');
+        console.log('🧬 Interactive 3D medical elements active');
     </script>
 </body>
 </html>

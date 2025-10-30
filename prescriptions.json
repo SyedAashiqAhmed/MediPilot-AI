@@ -1,0 +1,91 @@
+[
+  {
+    "id": "RX0001",
+    "patient_id": "P1234511111111123",
+    "patient_name": "Patient P1234511111111123",
+    "doctor_name": "Dr. Smith",
+    "medicines": [
+      {
+        "name": "Amoxicillin",
+        "dosage": "500mg",
+        "frequency": "3 times daily",
+        "duration": "7 days",
+        "instructions": "Take after meals with water"
+      },
+      {
+        "name": "Paracetamol",
+        "dosage": "650mg",
+        "frequency": "Twice daily",
+        "duration": "5 days",
+        "instructions": "Take when fever occurs"
+      }
+    ],
+    "notes": "Patient has mild fever and throat infection. Monitor temperature.",
+    "priority": "high",
+    "status": "preparing",
+    "created_at": "2025-10-30T12:00:00",
+    "pharmacist_name": "Pharmacist",
+    "delivered_at": null,
+    "updated_at": "2025-10-30T12:25:23.160471",
+    "preparing_at": "2025-10-30T12:25:23.160481"
+  },
+  {
+    "id": "RX0002",
+    "patient_id": "P12345",
+    "patient_name": "Patient P12345",
+    "doctor_name": "Dr. Johnson",
+    "medicines": [
+      {
+        "name": "Ibuprofen",
+        "dosage": "400mg",
+        "frequency": "3 times daily",
+        "duration": "10 days",
+        "instructions": "Take with food to avoid stomach upset"
+      },
+      {
+        "name": "Vitamin D3",
+        "dosage": "1000 IU",
+        "frequency": "Once daily",
+        "duration": "30 days",
+        "instructions": "Take in the morning"
+      },
+      {
+        "name": "Calcium Tablets",
+        "dosage": "500mg",
+        "frequency": "Twice daily",
+        "duration": "30 days",
+        "instructions": "Take with meals"
+      }
+    ],
+    "notes": "Patient has vitamin D deficiency and joint pain.",
+    "priority": "normal",
+    "status": "ready",
+    "created_at": "2025-10-30T10:30:00",
+    "pharmacist_name": "Pharmacist",
+    "delivered_at": null,
+    "updated_at": "2025-10-30T18:09:32.870922",
+    "prepared_at": "2025-10-30T18:09:32.870936"
+  },
+  {
+    "id": "RX0003",
+    "patient_id": "P99999",
+    "patient_name": "Patient P99999",
+    "doctor_name": "Dr. Williams",
+    "medicines": [
+      {
+        "name": "Aspirin",
+        "dosage": "75mg",
+        "frequency": "Once daily",
+        "duration": "Ongoing",
+        "instructions": "Take in the morning after breakfast"
+      }
+    ],
+    "notes": "Long-term prescription for heart health.",
+    "priority": "urgent",
+    "status": "delivered",
+    "created_at": "2025-10-30T09:00:00",
+    "pharmacist_name": "Pharmacist",
+    "delivered_at": "2025-10-30T12:25:17.997497",
+    "updated_at": "2025-10-30T12:25:17.997485"
+  }
+]

@@ -3,324 +3,928 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Portal - ClinicalAI 3D</title>
+    <title>Doctor Dashboard - MedCore AI</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='modern-framework.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='animations.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='3d-effects.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --cyber-blue: #00ffff;
-            --cyber-pink: #ff0080;
-            --cyber-green: #39ff14;
-            --cyber-purple: #8a2be2;
+            --primary-blue: #1e40af;
+            --primary-teal: #0891b2;
+            --primary-green: #059669;
+            --accent-blue: #3b82f6;
+            --accent-teal: #06b6d4;
+            --neutral-50: #f8fafc;
+            --neutral-100: #f1f5f9;
+            --neutral-200: #e2e8f0;
+            --neutral-300: #cbd5e1;
+            --neutral-400: #94a3b8;
+            --neutral-500: #64748b;
+            --neutral-600: #475569;
+            --neutral-700: #334155;
+            --neutral-800: #1e293b;
+            --neutral-900: #0f172a;
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+            --error-red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
-                linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
             min-height: 100vh;
-            margin: 0;
-            overflow-x: hidden;
+            color: var(--neutral-700);
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: cyber-grid-move 20s linear infinite;
-            z-index: -1;
+        /* Professional Header */
+        .header {
+            background: white;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
 
-        .nav-link {
-            position: fixed;
-            top: 2rem;
-            left: 2rem;
-            background: rgba(0, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            color: var(--cyber-blue);
-            padding: 1rem 2rem;
-            border-radius: 2rem;
-            text-decoration: none;
-            font-weight: 700;
-            font-family: 'Orbitron', monospace;
-            transition: all 0.4s ease;
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            z-index: 100;
-            text-shadow: 0 0 10px var(--cyber-blue);
-        }
-
-        .nav-link:hover {
-            background: rgba(0, 255, 255, 0.2);
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
-        }
-
-        .page-wrapper {
-            min-height: 100vh;
-            padding: 2rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .main-container {
+        .header-container {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .hero-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            transform-style: preserve-3d;
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
-        .hero-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 4rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--cyber-blue), var(--cyber-pink), var(--cyber-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            animation: holographic-shift 3s ease-in-out infinite;
-        }
-
-        .hero-avatar {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(45deg, var(--cyber-blue), var(--cyber-pink));
-            border-radius: 50%;
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 2rem;
-            font-size: 3rem;
-            animation: floating-3d 6s ease-in-out infinite;
-            box-shadow: 0 0 50px rgba(0, 255, 255, 0.5);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
         }
 
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-800);
+            line-height: 1;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--neutral-500);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+        }
+
+        .breadcrumb a {
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            color: var(--neutral-600);
+            font-size: 1.125rem;
+            line-height: 1.6;
+        }
+
+        /* Dashboard Grid */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2rem;
             margin-bottom: 3rem;
         }
 
-        .input-section {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: 2rem;
-            padding: 2.5rem;
-            transform-style: preserve-3d;
-            transition: all 0.6s ease;
+        .dashboard-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--neutral-200);
+            transition: all 0.2s ease;
         }
 
-        .input-section:hover {
-            transform: rotateY(5deg) rotateX(5deg) translateZ(20px);
-            border-color: rgba(0, 255, 255, 0.6);
-            box-shadow: 0 25px 50px rgba(0, 255, 255, 0.2);
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.15);
         }
 
-        .section-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--cyber-blue);
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             margin-bottom: 1.5rem;
-            text-shadow: 0 0 10px var(--cyber-blue);
         }
 
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.125rem;
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--neutral-900);
+        }
+
+        /* Form Elements */
         .input-group {
             display: flex;
             gap: 1rem;
             align-items: center;
             flex-wrap: wrap;
+            margin-bottom: 1rem;
         }
 
-        .patient-input {
+        .form-input {
             flex: 1;
             min-width: 250px;
-            padding: 1.2rem 1.5rem;
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid rgba(0, 255, 255, 0.3);
-            border-radius: 1rem;
-            color: var(--cyber-blue);
-            font-size: 1rem;
-            font-family: 'JetBrains Mono', monospace;
-            transition: all 0.4s ease;
+            padding: 0.75rem 1rem;
+            background: var(--neutral-50);
+            border: 1px solid var(--neutral-300);
+            border-radius: 8px;
+            color: var(--neutral-900);
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
         }
 
-        .patient-input:focus {
+        .form-input:focus {
             outline: none;
-            border-color: var(--cyber-blue);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
-            background: rgba(0, 0, 0, 0.8);
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+            background: white;
         }
 
-        .btn-3d {
-            padding: 1.2rem 2rem;
+        .btn {
+            padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 1rem;
-            font-family: 'Orbitron', monospace;
-            font-weight: 700;
-            font-size: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
             cursor: pointer;
-            transform-style: preserve-3d;
-            transition: all 0.4s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
         }
 
-        .btn-primary-3d {
-            background: linear-gradient(45deg, var(--cyber-blue), #0080ff);
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
             color: white;
-            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 2px 4px rgba(30, 64, 175, 0.2);
         }
 
-        .btn-primary-3d:hover {
-            transform: translateY(-8px) rotateX(15deg);
-            box-shadow: 0 25px 50px rgba(0, 255, 255, 0.4);
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(30, 64, 175, 0.3);
         }
 
+        .btn-secondary {
+            background: var(--neutral-100);
+            color: var(--neutral-700);
+            border: 1px solid var(--neutral-300);
+        }
+
+        .btn-secondary:hover {
+            background: var(--neutral-200);
+            border-color: var(--primary-blue);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Patient Data Display */
         .patient-data {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 0, 128, 0.3);
-            border-radius: 2rem;
-            padding: 2.5rem;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
             margin-bottom: 2rem;
-            transform-style: preserve-3d;
-            transition: all 0.6s ease;
-        }
-
-        .patient-data:hover {
-            transform: rotateY(-5deg) rotateX(5deg) translateZ(30px);
-            border-color: rgba(255, 0, 128, 0.6);
-            box-shadow: 0 30px 60px rgba(255, 0, 128, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--neutral-200);
         }
 
         .patient-data h3 {
-            font-family: 'Orbitron', monospace;
-            color: var(--cyber-pink);
-            font-size: 1.8rem;
+            font-family: 'Poppins', sans-serif;
+            color: var(--neutral-900);
+            font-size: 1.5rem;
+            font-weight: 600;
             margin-bottom: 1.5rem;
-            text-shadow: 0 0 15px var(--cyber-pink);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
+        .patient-info {
+            background: var(--neutral-50);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        /* Data Grid */
         .data-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            gap: 1rem;
             margin-top: 1.5rem;
         }
 
         .data-item {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            transition: all 0.4s ease;
-            transform-style: preserve-3d;
+            background: var(--neutral-50);
+            border: 1px solid var(--neutral-200);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.2s ease;
         }
 
         .data-item:hover {
-            transform: translateZ(15px) rotateX(10deg);
-            border-color: var(--cyber-blue);
-            box-shadow: 0 15px 30px rgba(0, 255, 255, 0.3);
+            transform: translateY(-2px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.15);
         }
 
         .data-label {
-            font-family: 'Orbitron', monospace;
             font-weight: 600;
-            color: rgba(0, 255, 255, 0.8);
+            color: var(--neutral-600);
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             margin-bottom: 0.5rem;
         }
 
         .data-value {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: white;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            color: var(--neutral-900);
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-normal {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-green);
+        }
+
+        .status-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-orange);
+        }
+
+        .status-critical {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-red);
+        }
+
+        /* AI Results */
+        .ai-results {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--neutral-200);
+        }
+
+        .ai-section {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .ai-section h4 {
+            color: var(--neutral-900);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .diagnosis-primary {
+            background: rgba(30, 64, 175, 0.05);
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .diagnosis-differential {
+            background: rgba(8, 145, 178, 0.05);
+            border-left: 4px solid var(--primary-teal);
+        }
+
+        .tests-recommended {
+            background: rgba(5, 150, 105, 0.05);
+            border-left: 4px solid var(--primary-green);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neutral-300);
+            border-top: 2px solid var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .hidden { display: none; }
 
+        /* Chat Interface */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            height: 600px;
+            max-width: 100%;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            color: white;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chat-header i {
+            font-size: 1.5rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.875rem 1.25rem;
+            border-radius: 12px;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: var(--primary-blue);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background: var(--neutral-100);
+            color: var(--neutral-800);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid var(--neutral-200);
+            background: var(--neutral-50);
+        }
+
+        #chatInput {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--neutral-200);
+            border-radius: 8px;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 1rem;
+            resize: none;
+            height: 48px;
+            transition: border-color 0.2s;
+        }
+
+        #chatInput:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.1);
+        }
+
+        .send-button {
+            margin-left: 0.75rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .send-button:hover {
+            background: #1e3a8a;
+        }
+
+        .send-button:disabled {
+            background: var(--neutral-300);
+            cursor: not-allowed;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--neutral-100);
+            border-radius: 8px;
+            align-self: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--neutral-400);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-4px); }
+        }
+
+        /* Responsive Design */
         @media (max-width: 1024px) {
             .dashboard-grid { grid-template-columns: 1fr; }
-            .hero-title { font-size: 3rem; }
+            .dashboard-title { font-size: 2rem; }
         }
 
         @media (max-width: 768px) {
-            .page-wrapper { padding: 1rem; }
-            .hero-title { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .main-container { padding: 1rem; }
+            .dashboard-title { font-size: 1.75rem; }
             .input-group { flex-direction: column; }
-            .patient-input { min-width: 100%; }
-            .btn-3d { width: 100%; }
+            .form-input { min-width: 100%; }
+            .btn { width: 100%; }
+            .btn-group { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-    <div class="page-wrapper animate-fadeIn">
-        <a href="/" class="nav-link animate-slideInDown">← Back to Home</a>
-        
-        <div class="main-container">
-            <div class="hero-header">
-                <div class="hero-avatar">👨‍⚕️</div>
-                <h1 class="hero-title animate-fadeInUp">Doctor Portal</h1>
-                <p class="hero-subtitle animate-fadeInUp animate-delay-200">Advanced Medical Intelligence Dashboard</p>
+    <!-- Professional Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-title">MedCore AI</div>
+                    <div class="logo-subtitle">Doctor Dashboard</div>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="/">Home</a>
+                <a href="/patient">Patient Portal</a>
+                <a href="#analytics">Analytics</a>
+                <a href="#support">Support</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Doctor Dashboard</span>
+        </div>
+
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Medical Intelligence Dashboard</h1>
+            <p class="dashboard-subtitle">
+                Advanced AI-powered patient analysis, clinical decision support, and comprehensive medical data management
+            </p>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Patient Lookup Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="card-title">Patient Lookup</h3>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="patientId" class="form-input" placeholder="Enter Patient ID (e.g., P12345)" value="P12345">
+                    <button onclick="getPatientData()" class="btn btn-primary">
+                        <i class="fas fa-user"></i>
+                        Get Patient Data
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button onclick="getAllPatients()" class="btn btn-secondary">
+                        <i class="fas fa-users"></i>
+                        All Patients
+                    </button>
+                </div>
             </div>
 
-            <div class="dashboard-grid">
-                <div class="input-section animate-fadeInLeft animate-delay-300">
-                    <h3 class="section-title">Patient Lookup</h3>
-                    <div class="input-group">
-                        <input type="text" id="patientId" class="patient-input" placeholder="Enter Patient ID (e.g., P12345)" value="P12345">
-                        <button onclick="getPatientData()" class="btn-3d btn-primary-3d">Get Data</button>
+            <!-- AI Analysis Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-brain"></i>
                     </div>
-                    <div class="input-group" style="margin-top: 1rem;">
-                        <button onclick="getAllPatients()" class="btn-3d btn-primary-3d">All Patients</button>
-                        <button onclick="startAIConsultation()" class="btn-3d btn-primary-3d">AI Consultation</button>
+                    <h3 class="card-title">AI Medical Analysis</h3>
+                </div>
+                <div class="btn-group">
+                    <button onclick="startAIConsultation()" class="btn btn-primary">
+                        <i class="fas fa-stethoscope"></i>
+                        AI Consultation
+                    </button>
+                    <button onclick="getClinicalInsights()" class="btn btn-primary">
+                        <i class="fas fa-microscope"></i>
+                        Clinical Insights
+                    </button>
+                </div>
+                <div class="btn-group" style="margin-top: 1rem;">
+                    <button onclick="getPatientComparison()" class="btn btn-secondary">
+                        <i class="fas fa-chart-line"></i>
+                        Compare History
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Call Requests & Scheduling Section -->
+        <div class="dashboard-grid" style="margin-bottom: 2rem;">
+            <!-- Video Call Requests Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="card-title">Video Call Requests</h3>
+                    <span id="notificationBadge" class="status-indicator status-critical" style="margin-left: auto; display: none;">
+                        <i class="fas fa-bell"></i>
+                        <span id="notificationCount">0</span> New
+                    </span>
+                </div>
+                <button onclick="loadVideoCallRequests()" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">
+                    <i class="fas fa-sync"></i>
+                    Refresh Requests
+                </button>
+                <div id="videoCallRequestsList" style="max-height: 400px; overflow-y: auto;">
+                    <div style="text-align: center; padding: 2rem; color: var(--neutral-500);">
+                        <i class="fas fa-video" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                        <p>No pending video call requests</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schedule Appointment Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-plus"></i>
+                    </div>
+                    <h3 class="card-title">Schedule Appointment</h3>
+                </div>
+                <form id="scheduleForm" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" style="margin-bottom: 0.5rem;">Patient ID *</label>
+                        <input type="text" id="schedulePatientId" class="form-input" required placeholder="Enter Patient ID">
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" style="margin-bottom: 0.5rem;">Date *</label>
+                        <input type="date" id="scheduleDate" class="form-input" required>
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" style="margin-bottom: 0.5rem;">Time *</label>
+                        <input type="time" id="scheduleTime" class="form-input" required>
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" style="margin-bottom: 0.5rem;">Duration (minutes)</label>
+                        <select id="scheduleDuration" class="form-input">
+                            <option value="15">15 minutes</option>
+                            <option value="30" selected>30 minutes</option>
+                            <option value="45">45 minutes</option>
+                            <option value="60">60 minutes</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" style="margin-bottom: 0.5rem;">Notes</label>
+                        <textarea id="scheduleNotes" class="form-input" rows="3" placeholder="Add any notes for the appointment..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-calendar-check"></i>
+                        Schedule Appointment
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- All Appointments View -->
+        <div class="dashboard-card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3 class="card-title">All Scheduled Appointments</h3>
+                <button onclick="loadAllAppointments()" class="btn btn-secondary" style="margin-left: auto;">
+                    <i class="fas fa-sync"></i>
+                    Refresh
+                </button>
+            </div>
+            <div id="allAppointmentsList" style="display: grid; gap: 1rem; margin-top: 1rem;">
+                <div style="text-align: center; padding: 2rem; color: var(--neutral-500);">
+                    <i class="fas fa-calendar" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                    <p>Click "Refresh" to load appointments</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Send Prescription to Pharmacy -->
+        <div class="dashboard-card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-prescription"></i>
+                </div>
+                <h3 class="card-title">Send Prescription to Pharmacy</h3>
+            </div>
+            <form id="prescriptionForm" style="display: grid; gap: 1.5rem;">
+                <div class="form-group" style="margin: 0;">
+                    <label class="form-label" style="margin-bottom: 0.5rem;">Patient ID *</label>
+                    <input type="text" id="rxPatientId" class="form-input" required placeholder="Enter Patient ID">
+                </div>
+                
+                <div class="form-group" style="margin: 0;">
+                    <label class="form-label" style="margin-bottom: 0.5rem;">Priority *</label>
+                    <select id="rxPriority" class="form-input">
+                        <option value="normal">Normal</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+
+                <div style="border: 2px dashed var(--neutral-300); border-radius: 8px; padding: 1.5rem; background: var(--neutral-50);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h4 style="margin: 0; color: var(--neutral-900);">
+                            <i class="fas fa-pills"></i>
+                            Medicines
+                        </h4>
+                        <button type="button" onclick="addMedicineField()" class="btn btn-secondary btn-sm">
+                            <i class="fas fa-plus"></i>
+                            Add Medicine
+                        </button>
+                    </div>
+                    <div id="medicinesContainer">
+                        <!-- Medicine fields will be added here -->
                     </div>
                 </div>
 
-                <div class="input-section animate-fadeInRight animate-delay-300">
-                    <h3 class="section-title">AI Analysis</h3>
-                    <div class="input-group">
-                        <button onclick="getPatientComparison()" class="btn-3d btn-primary-3d">Compare History</button>
-                        <button onclick="getClinicalInsights()" class="btn-3d btn-primary-3d">Clinical Insights</button>
+                <div class="form-group" style="margin: 0;">
+                    <label class="form-label" style="margin-bottom: 0.5rem;">Special Instructions / Notes</label>
+                    <textarea id="rxNotes" class="form-input" rows="3" placeholder="Any special instructions for the pharmacist..."></textarea>
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">
+                        <i class="fas fa-paper-plane"></i>
+                        Send to Pharmacy
+                    </button>
+                    <button type="button" onclick="sendPharmacyMessage()" class="btn btn-secondary">
+                        <i class="fas fa-comment"></i>
+                        Send Message
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Patient Data Display -->
+        <div id="patientData" class="patient-data hidden">
+            <h3>
+                <i class="fas fa-user-injured"></i>
+                Patient Medical Records
+            </h3>
+            <div id="patientInfo" class="patient-info"></div>
+            <div class="data-grid" id="dataGrid"></div>
+        </div>
+
+        <!-- Comparison Chart -->
+        <div id="comparisonChart" class="patient-data hidden">
+            <h3>
+                <i class="fas fa-chart-area"></i>
+                Patient History Comparison
+            </h3>
+            <div id="chartContainer" style="text-align: center; padding: 1rem;"></div>
+        </div>
+
+        <!-- AI Results -->
+        <div id="aiResults" class="ai-results hidden">
+            <h3>
+                <i class="fas fa-robot"></i>
+                AI Medical Analysis
+            </h3>
+            <div id="aiContent"></div>
+        </div>
+
+        <!-- AI Chat Assistant -->
+        <div class="dashboard-card" id="aiChatCard" style="margin-top: 2rem;">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-comment-medical"></i>
+                </div>
+                <h3 class="card-title">AI Medical Assistant</h3>
+            </div>
+            <div class="chat-container">
+                <div class="chat-header" style="justify-content: space-between;">
+                    <div style="display:flex; align-items:center; gap:0.75rem;">
+                        <i class="fas fa-robot"></i>
+                        <div>
+                            <div style="font-weight: 600;">MedCore AI Assistant</div>
+                            <div style="font-size: 0.75rem; opacity: 0.9;">Ask about patient data or general medical questions</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                        <label for="generalAiToggle" style="font-size:0.8rem; opacity:0.9;">General AI</label>
+                        <input type="checkbox" id="generalAiToggle" title="Enable general AI (requires GEMINI_API_KEY)" checked />
                     </div>
                 </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        Hello! I'm your AI medical assistant. I can help you analyze patient data, explain medical terms, and provide clinical insights. How can I assist you today?
+                    </div>
+                </div>
+                <!-- Quick Actions -->
+                <div id="chatQuickActions" style="display:flex; gap:0.5rem; padding:0.75rem 1rem; border-top:1px dashed var(--neutral-200); background: var(--neutral-50);">
+                    <button class="btn btn-secondary" data-msg="patient summary" style="padding:0.5rem 0.75rem;">
+                        <i class="fas fa-id-card"></i> Summary
+                    </button>
+                    <button class="btn btn-secondary" data-msg="diagnosis" style="padding:0.5rem 0.75rem;">
+                        <i class="fas fa-stethoscope"></i> Diagnoses
+                    </button>
+                    <button class="btn btn-secondary" data-msg="clinical insights" style="padding:0.5rem 0.75rem;">
+                        <i class="fas fa-microscope"></i> Insights
+                    </button>
+                    <button class="btn btn-secondary" data-msg="recommended tests" style="padding:0.5rem 0.75rem;">
+                        <i class="fas fa-vials"></i> Tests
+                    </button>
+                    <button class="btn btn-secondary" data-msg="precautions and red flags" style="padding:0.5rem 0.75rem;">
+                        <i class="fas fa-exclamation-circle"></i> Precautions
+                    </button>
+                </div>
+                <div class="chat-input-container">
+                    <textarea id="chatInput" placeholder="Type your question about the patient..." rows="1"></textarea>
+                    <button class="send-button" id="sendButton" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
             </div>
-
-            <div id="patientData" class="patient-data hidden animate-scaleIn">
-                <h3>Patient Details</h3>
-                <div id="patientInfo"></div>
-                <div class="data-grid" id="dataGrid"></div>
-            </div>
-
-            <div id="comparisonChart" class="patient-data hidden">
-                <h3>Comparison Chart</h3>
-                <div id="chartContainer"></div>
-            </div>
-
-            <div id="aiResults" class="patient-data hidden">
-                <h3>AI Analysis</h3>
-                <div id="aiContent"></div>
+            <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--neutral-500);">
+                <i class="fas fa-info-circle"></i> I can access the current patient's data to provide relevant insights and analysis.
             </div>
         </div>
     </div>
+
+    <!-- Professional Footer -->
+    <footer style="background: var(--neutral-900); color: var(--neutral-300); padding: 3rem 0 2rem; margin-top: 4rem;">
+        <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                <div>
+                    <h3 style="color: white; font-weight: 600; margin-bottom: 1rem;">MedCore AI</h3>
+                    <p style="line-height: 1.6;">Professional medical intelligence platform providing AI-powered healthcare solutions for medical professionals and institutions.</p>
+                </div>
+                <div>
+                    <h3 style="color: white; font-weight: 600; margin-bottom: 1rem;">Doctor Tools</h3>
+                    <p><a href="#patient-lookup" style="color: var(--neutral-400); text-decoration: none;">Patient Data Lookup</a></p>
+                    <p><a href="#ai-consultation" style="color: var(--neutral-400); text-decoration: none;">AI Medical Consultation</a></p>
+                    <p><a href="#clinical-insights" style="color: var(--neutral-400); text-decoration: none;">Clinical Decision Support</a></p>
+                </div>
+                <div>
+                    <h3 style="color: white; font-weight: 600; margin-bottom: 1rem;">Analytics & Reports</h3>
+                    <p><a href="#patient-comparison" style="color: var(--neutral-400); text-decoration: none;">Patient History Analysis</a></p>
+                    <p><a href="#trends" style="color: var(--neutral-400); text-decoration: none;">Medical Trends</a></p>
+                    <p><a href="#outcomes" style="color: var(--neutral-400); text-decoration: none;">Treatment Outcomes</a></p>
+                </div>
+            </div>
+            <div style="border-top: 1px solid var(--neutral-800); padding-top: 2rem; text-align: center; color: var(--neutral-500);">
+                <p>&copy; 2024 MedCore AI. All rights reserved. | Professional Medical Intelligence Platform</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
         function getPatientData() {
@@ -345,44 +949,84 @@
             // Handle array response (API returns array)
             let patientData = Array.isArray(data) ? data[0] : data;
             
+            // Store patient data globally for the chat
+            currentPatientData = patientData;
+            
             patientInfo.innerHTML = `
-                <p style="color: var(--cyber-blue); font-family: 'JetBrains Mono', monospace;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--neutral-700); font-weight: 600;">
+                    <i class="fas fa-id-badge" style="color: var(--primary-blue);"></i>
                     <strong>Patient ID:</strong> ${patientId}
-                </p>
+                </div>
+                <div style="margin-top: 0.5rem; color: var(--neutral-600); font-size: 0.875rem;">
+                    Last updated: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}
+                </div>
             `;
+            
+            // Helper function to get status indicator
+            function getVitalStatus(value, type) {
+                if (!value || value === 'N/A') return '';
+                
+                let status = 'normal';
+                if (type === 'bp') {
+                    const [systolic] = value.split('/').map(Number);
+                    if (systolic > 140) status = 'critical';
+                    else if (systolic > 120) status = 'warning';
+                } else if (type === 'hr') {
+                    const hr = Number(value);
+                    if (hr > 100 || hr < 60) status = 'warning';
+                    if (hr > 120 || hr < 50) status = 'critical';
+                } else if (type === 'spo2') {
+                    const spo2 = Number(value);
+                    if (spo2 < 95) status = 'critical';
+                    else if (spo2 < 98) status = 'warning';
+                }
+                
+                const icons = { normal: 'check-circle', warning: 'exclamation-triangle', critical: 'exclamation-circle' };
+                return `<span class="status-indicator status-${status}"><i class="fas fa-${icons[status]}"></i></span>`;
+            }
             
             dataGrid.innerHTML = `
                 <div class="data-item">
-                    <div class="data-label">Symptoms</div>
-                    <div class="data-value">${patientData.symptoms || 'N/A'}</div>
+                    <div class="data-label"><i class="fas fa-notes-medical"></i> Current Symptoms</div>
+                    <div class="data-value">${patientData.symptoms || 'No symptoms recorded'}</div>
                 </div>
                 <div class="data-item">
-                    <div class="data-label">Blood Pressure</div>
-                    <div class="data-value">${patientData.vitals?.bp || 'N/A'}</div>
+                    <div class="data-label"><i class="fas fa-heartbeat"></i> Blood Pressure</div>
+                    <div class="data-value">
+                        ${patientData.vitals?.bp || 'N/A'} mmHg
+                        ${getVitalStatus(patientData.vitals?.bp, 'bp')}
+                    </div>
                 </div>
                 <div class="data-item">
-                    <div class="data-label">Heart Rate</div>
-                    <div class="data-value">${patientData.vitals?.hr || 'N/A'} bpm</div>
+                    <div class="data-label"><i class="fas fa-heart"></i> Heart Rate</div>
+                    <div class="data-value">
+                        ${patientData.vitals?.hr || 'N/A'} ${patientData.vitals?.hr ? 'bpm' : ''}
+                        ${getVitalStatus(patientData.vitals?.hr, 'hr')}
+                    </div>
                 </div>
                 <div class="data-item">
-                    <div class="data-label">SpO2</div>
-                    <div class="data-value">${patientData.vitals?.spo2 || 'N/A'}%</div>
+                    <div class="data-label"><i class="fas fa-lungs"></i> Oxygen Saturation</div>
+                    <div class="data-value">
+                        ${patientData.vitals?.spo2 || 'N/A'}${patientData.vitals?.spo2 ? '%' : ''}
+                        ${getVitalStatus(patientData.vitals?.spo2, 'spo2')}
+                    </div>
                 </div>
                 <div class="data-item">
-                    <div class="data-label">ECG</div>
-                    <div class="data-value">${patientData.lab_results?.ecg || 'N/A'}</div>
+                    <div class="data-label"><i class="fas fa-wave-square"></i> ECG Results</div>
+                    <div class="data-value">${patientData.lab_results?.ecg || 'No ECG data'}</div>
                 </div>
                 <div class="data-item">
-                    <div class="data-label">Troponin</div>
-                    <div class="data-value">${patientData.lab_results?.troponin || 'N/A'}</div>
+                    <div class="data-label"><i class="fas fa-vial"></i> Troponin Level</div>
+                    <div class="data-value">${patientData.lab_results?.troponin || 'N/A'} ${patientData.lab_results?.troponin ? 'ng/mL' : ''}</div>
                 </div>
                 <div class="data-item">
-                    <div class="data-label">Cholesterol</div>
-                    <div class="data-value">${patientData.lab_results?.cholesterol || 'N/A'}</div>
+                    <div class="data-label"><i class="fas fa-flask"></i> Cholesterol</div>
+                    <div class="data-value">${patientData.lab_results?.cholesterol || 'N/A'} ${patientData.lab_results?.cholesterol ? 'mg/dL' : ''}</div>
                 </div>
             `;
             
             patientDataDiv.classList.remove('hidden');
+            patientDataDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function getAllPatients() {
@@ -393,6 +1037,220 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
+
+        // ---- AI Chat: Global State ----
+        let currentPatientData = null;
+
+        // ---- AI Chat: Helpers ----
+        function addMessage(text, sender, isHtml=false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            if (!messagesContainer) return;
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            if (isHtml) {
+                messageDiv.innerHTML = text;
+            } else {
+                messageDiv.textContent = text;
+            }
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function addStructuredMessage(structured) {
+            if (!structured) return false;
+            const parts = [];
+            if (structured.summary) {
+                parts.push(`<div style="margin-bottom: 0.5rem; font-weight:600; color: var(--neutral-800);">${structured.summary}</div>`);
+            }
+            if (structured.vitals && (structured.vitals.bp || structured.vitals.hr || structured.vitals.spo2)) {
+                parts.push(`
+                    <div style="background: var(--neutral-50); border:1px solid var(--neutral-200); padding:0.75rem; border-radius:8px; margin-bottom:0.5rem;">
+                        <div style="font-weight:600; margin-bottom:0.25rem; color:var(--primary-blue);"><i class="fas fa-heartbeat"></i> Vitals</div>
+                        <div style="color:var(--neutral-700);">
+                            ${structured.vitals.bp ? `<div>• BP: ${structured.vitals.bp} mmHg</div>` : ''}
+                            ${structured.vitals.hr ? `<div>• HR: ${structured.vitals.hr} bpm</div>` : ''}
+                            ${structured.vitals.spo2 ? `<div>• SpO2: ${structured.vitals.spo2}%</div>` : ''}
+                        </div>
+                    </div>
+                `);
+            }
+            if (structured.labs && (structured.labs.ecg || structured.labs.troponin || structured.labs.cholesterol)) {
+                parts.push(`
+                    <div style="background: var(--neutral-50); border:1px solid var(--neutral-200); padding:0.75rem; border-radius:8px; margin-bottom:0.5rem;">
+                        <div style="font-weight:600; margin-bottom:0.25rem; color:var(--primary-teal);"><i class="fas fa-vial"></i> Labs</div>
+                        <div style="color:var(--neutral-700);">
+                            ${structured.labs.ecg ? `<div>• ECG: ${structured.labs.ecg}</div>` : ''}
+                            ${structured.labs.troponin ? `<div>• Troponin: ${structured.labs.troponin} ng/mL</div>` : ''}
+                            ${structured.labs.cholesterol ? `<div>• Cholesterol: ${structured.labs.cholesterol} mg/dL</div>` : ''}
+                        </div>
+                    </div>
+                `);
+            }
+            if (structured.diagnoses && structured.diagnoses.length) {
+                parts.push(`
+                    <div style="background: rgba(8,145,178,0.06); border-left:4px solid var(--primary-teal); padding:0.75rem; border-radius:6px; margin-bottom:0.5rem;">
+                        <div style="font-weight:700; margin-bottom:0.25rem; color:var(--primary-teal);"><i class="fas fa-stethoscope"></i> Possible Diagnoses</div>
+                        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                            ${structured.diagnoses.map(d => `
+                                <div style='background:white; border:1px solid var(--neutral-200); padding:0.5rem 0.75rem; border-radius:6px;'>
+                                    <div style='display:flex; align-items:center; justify-content:space-between;'>
+                                        <strong style='color:var(--neutral-800);'>${d.condition}</strong>
+                                        <span style='font-size:0.8rem; color:var(--neutral-600);'>${d.confidence} confidence</span>
+                                    </div>
+                                    ${d.reasoning ? `<div style='margin-top:0.25rem; color:var(--neutral-700); font-size:0.9rem;'>${d.reasoning}</div>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `);
+            }
+            if (structured.insights && structured.insights.notes && structured.insights.notes.length) {
+                parts.push(`
+                    <div style="background: rgba(30, 64, 175, 0.05); border-left:4px solid var(--primary-blue); padding:0.75rem; border-radius:6px; margin-bottom:0.5rem;">
+                        <div style="font-weight:600; margin-bottom:0.25rem; color:var(--primary-blue);"><i class="fas fa-microscope"></i> Clinical Insights</div>
+                        <ul style="margin:0; padding-left:1.25rem; color:var(--neutral-700);">
+                            ${structured.insights.notes.map(n => `<li>${n}</li>`).join('')}
+                        </ul>
+                    </div>
+                `);
+            }
+            if (structured.tests && structured.tests.length) {
+                parts.push(`
+                    <div style="background: rgba(5,150,105,0.06); border-left:4px solid var(--primary-green); padding:0.75rem; border-radius:6px; margin-bottom:0.5rem;">
+                        <div style="font-weight:600; margin-bottom:0.25rem; color:var(--primary-green);"><i class="fas fa-vials"></i> Recommended Tests</div>
+                        <ul style="margin:0; padding-left:1.25rem; color:var(--neutral-700);">
+                            ${structured.tests.map(t => `<li><strong>${t.test}</strong> - ${t.reason}${t.urgency ? ` <span style='color:var(--error-red);'>(${t.urgency})</span>` : ''}</li>`).join('')}
+                        </ul>
+                    </div>
+                `);
+            }
+            if (structured.precautions && structured.precautions.length) {
+                parts.push(`
+                    <div style="background: rgba(245,158,11,0.08); border-left:4px solid var(--warning-orange); padding:0.75rem; border-radius:6px; margin-bottom:0.5rem;">
+                        <div style="font-weight:600; margin-bottom:0.25rem; color:var(--warning-orange);"><i class="fas fa-user-shield"></i> Precautions</div>
+                        <ul style="margin:0; padding-left:1.25rem; color:var(--neutral-700);">
+                            ${structured.precautions.map(p => `<li>${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                `);
+            }
+            if (structured.red_flags && structured.red_flags.length) {
+                parts.push(`
+                    <div style="background: rgba(239,68,68,0.08); border-left:4px solid var(--error-red); padding:0.75rem; border-radius:6px; margin-bottom:0.5rem;">
+                        <div style="font-weight:700; margin-bottom:0.25rem; color:var(--error-red);"><i class="fas fa-exclamation-triangle"></i> Red Flags</div>
+                        <ul style="margin:0; padding-left:1.25rem; color:var(--error-red);">
+                            ${structured.red_flags.map(r => `<li>${r}</li>`).join('')}
+                        </ul>
+                    </div>
+                `);
+            }
+            if (parts.length) {
+                addMessage(parts.join(''), 'bot', true);
+                return true;
+            }
+            return false;
+        }
+
+        function showTypingIndicator() {
+            const messagesContainer = document.getElementById('chatMessages');
+            if (!messagesContainer) return;
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typingIndicator';
+            typingDiv.className = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) typingIndicator.remove();
+        }
+
+        // ---- AI Chat: Send ----
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            if (!input) return;
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message and clear input
+            addMessage(message, 'user');
+            input.value = '';
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            // Patient context
+            const patientId = document.getElementById('patientId')?.value || '';
+
+            const payload = {
+                message: message,
+                patientId: patientId,
+                patientData: currentPatientData || {},
+                generalAi: document.getElementById('generalAiToggle')?.checked || false
+            };
+
+            fetch('/api/doctor-chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                hideTypingIndicator();
+                if (data && data.structured) {
+                    // Render structured insights inside chat
+                    const rendered = addStructuredMessage(data.structured);
+                    if (!rendered && data.response) {
+                        addMessage(data.response, 'bot');
+                    }
+                } else if (data && data.response) {
+                    addMessage(data.response, 'bot');
+                } else if (data && data.error) {
+                    addMessage(`Error: ${data.error}`, 'bot');
+                } else {
+                    addMessage("I'm sorry, I couldn't process that. Please try again.", 'bot');
+                }
+            })
+            .catch(err => {
+                console.error('Chat error:', err);
+                hideTypingIndicator();
+                addMessage("Network error while sending message. Please check the server.", 'bot');
+            });
+        }
+
+        // ---- AI Chat: Input handlers ----
+        setTimeout(() => {
+            const input = document.getElementById('chatInput');
+            if (!input) return;
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            input.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+            // Quick actions
+            const qa = document.getElementById('chatQuickActions');
+            if (qa) {
+                qa.addEventListener('click', (e) => {
+                    const btn = e.target.closest('button[data-msg]');
+                    if (!btn) return;
+                    const val = btn.getAttribute('data-msg');
+                    const inputEl = document.getElementById('chatInput');
+                    inputEl.value = val;
+                    sendMessage();
+                });
+            }
+        }, 0);
 
         function getPatientComparison() {
             const patientId = document.getElementById('patientId').value;
@@ -411,18 +1269,28 @@
 
         function startAIConsultation() {
             const patientId = document.getElementById('patientId').value;
-            if (!patientId) return;
+            if (!patientId) {
+                alert('Please enter a Patient ID first.');
+                return;
+            }
             
             // Show loading state
             const aiDiv = document.getElementById('aiResults');
             const aiContent = document.getElementById('aiContent');
             aiContent.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                    <div style="display: inline-block; width: 40px; height: 40px; border: 3px solid rgba(0, 255, 255, 0.3); border-top: 3px solid var(--cyber-blue); border-radius: 50%; animation: rotate 1s linear infinite;"></div>
-                    <p style="margin-top: 1rem; color: var(--cyber-blue);">AI is analyzing patient data...</p>
+                <div style="text-align: center; padding: 3rem;">
+                    <div class="loading-spinner" style="width: 40px; height: 40px; margin: 0 auto;"></div>
+                    <p style="margin-top: 1.5rem; color: var(--neutral-600); font-weight: 500;">
+                        <i class="fas fa-brain" style="color: var(--primary-blue); margin-right: 0.5rem;"></i>
+                        AI is analyzing patient data and generating medical insights...
+                    </p>
+                    <p style="margin-top: 0.5rem; color: var(--neutral-500); font-size: 0.875rem;">
+                        This may take a few moments
+                    </p>
                 </div>
             `;
             aiDiv.classList.remove('hidden');
+            aiDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
             
             fetch(`/ai_consultation/${patientId}`)
                 .then(response => {
@@ -434,109 +1302,131 @@
                 .then(data => {
                     console.log('AI Consultation Response:', data);
                     
-                    let content = '<div style="color: white; line-height: 1.6;">';
+                    let content = '<div style="color: var(--neutral-700); line-height: 1.6;">';
                     
                     // Handle different response formats
                     if (data.greeting) {
-                        content += `<p style="margin-bottom: 1rem; font-size: 1.1rem; color: var(--cyber-green);">${data.greeting}</p>`;
+                        content += `<div style="background: var(--neutral-50); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid var(--primary-green);">
+                            <p style="margin: 0; font-size: 1.1rem; color: var(--neutral-700); font-weight: 500;">${data.greeting}</p>
+                        </div>`;
                     }
                     
                     // Check for current_complaint (alternative field name)
                     if (data.current_complaint) {
-                        content += `<div style="background: rgba(0, 255, 255, 0.1); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
-                            <strong style="color: var(--cyber-blue);">Current Complaint:</strong> ${data.current_complaint}
+                        content += `<div class="ai-section" style="background: var(--neutral-50); border-left: 4px solid var(--primary-blue);">
+                            <h4><i class="fas fa-clipboard-list"></i> Current Complaint</h4>
+                            <p style="margin: 0; color: var(--neutral-700);">${data.current_complaint}</p>
                         </div>`;
                     }
                     
                     // Primary Diagnosis
                     if (data.primary_diagnosis) {
-                        content += '<h4 style="color: var(--cyber-blue); margin: 1.5rem 0 1rem 0;">🎯 Primary Diagnosis:</h4>';
-                        content += `
-                            <div style="background: rgba(0, 255, 255, 0.15); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1rem; border-left: 4px solid var(--cyber-blue);">
-                                <strong style="color: var(--cyber-blue); font-size: 1.2rem;">${data.primary_diagnosis.condition}</strong> 
-                                <span style="color: var(--cyber-green); font-size: 1rem; margin-left: 1rem;">(${data.primary_diagnosis.confidence} confidence)</span>
-                                <p style="margin: 1rem 0 0 0; color: rgba(255, 255, 255, 0.9); line-height: 1.5;">${data.primary_diagnosis.reasoning}</p>
+                        content += `<div class="ai-section diagnosis-primary">
+                            <h4><i class="fas fa-stethoscope"></i> Primary Diagnosis</h4>
+                            <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid var(--neutral-200);">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
+                                    <strong style="color: var(--primary-blue); font-size: 1.1rem;">${data.primary_diagnosis.condition}</strong>
+                                    <span class="status-indicator status-normal">${data.primary_diagnosis.confidence} confidence</span>
+                                </div>
+                                <p style="margin: 0; color: var(--neutral-600); line-height: 1.5;">${data.primary_diagnosis.reasoning}</p>
                             </div>
-                        `;
+                        </div>`;
                     }
                     
                     // Differential Diagnosis
                     if (data.differential_diagnosis && data.differential_diagnosis.length > 0) {
-                        content += '<h4 style="color: var(--cyber-pink); margin: 1.5rem 0 1rem 0;">🔍 Alternative Diagnoses:</h4>';
+                        content += `<div class="ai-section diagnosis-differential">
+                            <h4><i class="fas fa-search"></i> Alternative Diagnoses</h4>`;
                         data.differential_diagnosis.forEach(diag => {
                             content += `
-                                <div style="background: rgba(255, 0, 128, 0.1); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; border-left: 3px solid var(--cyber-pink);">
-                                    <strong style="color: var(--cyber-pink);">${diag.condition}</strong> 
-                                    <span style="color: var(--cyber-green); font-size: 0.9rem;">(${diag.confidence} confidence)</span>
-                                    <p style="margin: 0.5rem 0 0 0; color: rgba(255, 255, 255, 0.9);">${diag.reasoning}</p>
+                                <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid var(--neutral-200); margin-bottom: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                                        <strong style="color: var(--primary-teal);">${diag.condition}</strong>
+                                        <span class="status-indicator status-warning">${diag.confidence} confidence</span>
+                                    </div>
+                                    <p style="margin: 0; color: var(--neutral-600); font-size: 0.875rem;">${diag.reasoning}</p>
                                 </div>
                             `;
                         });
+                        content += '</div>';
                     }
                     
                     // Recommended Tests
                     if (data.recommended_tests && data.recommended_tests.length > 0) {
-                        content += '<h4 style="color: var(--cyber-green); margin: 1.5rem 0 1rem 0;">🧪 Recommended Tests:</h4>';
+                        content += `<div class="ai-section tests-recommended">
+                            <h4><i class="fas fa-vials"></i> Recommended Tests</h4>`;
                         data.recommended_tests.forEach(test => {
+                            const urgencyClass = test.urgency?.toLowerCase().includes('urgent') ? 'status-critical' : 'status-warning';
                             content += `
-                                <div style="background: rgba(57, 255, 20, 0.1); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; border-left: 3px solid var(--cyber-green);">
-                                    <strong style="color: var(--cyber-green);">${test.test}</strong>
-                                    <span style="color: var(--cyber-orange); font-size: 0.9rem; margin-left: 1rem;">${test.urgency}</span>
-                                    <p style="margin: 0.5rem 0 0 0; color: rgba(255, 255, 255, 0.9);">${test.reason}</p>
+                                <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid var(--neutral-200); margin-bottom: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                                        <strong style="color: var(--primary-green);">${test.test}</strong>
+                                        <span class="status-indicator ${urgencyClass}">${test.urgency}</span>
+                                    </div>
+                                    <p style="margin: 0; color: var(--neutral-600); font-size: 0.875rem;">${test.reason}</p>
                                 </div>
                             `;
                         });
+                        content += '</div>';
                     }
                     
                     // Treatment Plan
                     if (data.treatment_plan && data.treatment_plan.length > 0) {
-                        content += '<h4 style="color: var(--cyber-purple); margin: 1.5rem 0 1rem 0;">💊 Treatment Plan:</h4>';
-                        content += '<ul style="color: rgba(255, 255, 255, 0.9); padding-left: 1.5rem;">';
+                        content += `<div class="ai-section" style="background: rgba(138, 43, 226, 0.05); border-left: 4px solid #8b5cf6;">
+                            <h4><i class="fas fa-pills"></i> Treatment Plan</h4>
+                            <ul style="color: var(--neutral-700); padding-left: 1.5rem; margin: 0;">`;
                         data.treatment_plan.forEach(plan => {
-                            content += `<li style="margin-bottom: 0.5rem; color: rgba(255, 255, 255, 0.9);">${plan}</li>`;
+                            content += `<li style="margin-bottom: 0.75rem; line-height: 1.5;">${plan}</li>`;
                         });
-                        content += '</ul>';
+                        content += '</ul></div>';
                     }
                     
                     // Immediate Precautions
                     if (data.immediate_precautions && data.immediate_precautions.length > 0) {
-                        content += '<h4 style="color: var(--cyber-orange); margin: 1.5rem 0 1rem 0;">⚠️ Immediate Precautions:</h4>';
-                        content += '<ul style="color: #ffcc02; padding-left: 1.5rem;">';
+                        content += `<div class="ai-section" style="background: rgba(245, 158, 11, 0.05); border-left: 4px solid var(--warning-orange);">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Immediate Precautions</h4>
+                            <ul style="color: var(--neutral-700); padding-left: 1.5rem; margin: 0;">`;
                         data.immediate_precautions.forEach(precaution => {
-                            content += `<li style="margin-bottom: 0.5rem;">${precaution}</li>`;
+                            content += `<li style="margin-bottom: 0.75rem; line-height: 1.5; font-weight: 500;">${precaution}</li>`;
                         });
-                        content += '</ul>';
+                        content += '</ul></div>';
                     }
                     
                     // Red Flags
                     if (data.red_flags && data.red_flags.length > 0) {
-                        content += '<h4 style="color: #ff4444; margin: 1.5rem 0 1rem 0;">🚨 Red Flags - Seek Immediate Care:</h4>';
-                        content += '<ul style="color: #ffaaaa; padding-left: 1.5rem;">';
+                        content += `<div class="ai-section" style="background: rgba(239, 68, 68, 0.05); border-left: 4px solid var(--error-red);">
+                            <h4><i class="fas fa-exclamation-circle"></i> Critical Red Flags - Seek Immediate Care</h4>
+                            <ul style="color: var(--error-red); padding-left: 1.5rem; margin: 0;">`;
                         data.red_flags.forEach(flag => {
-                            content += `<li style="margin-bottom: 0.5rem; font-weight: 500;">${flag}</li>`;
+                            content += `<li style="margin-bottom: 0.75rem; font-weight: 600; line-height: 1.5;">${flag}</li>`;
                         });
-                        content += '</ul>';
+                        content += '</ul></div>';
                     }
                     
                     // Lifestyle Advice
                     if (data.lifestyle_advice && data.lifestyle_advice.length > 0) {
-                        content += '<h4 style="color: var(--cyber-blue); margin: 1.5rem 0 1rem 0;">🏃‍♂️ Lifestyle Recommendations:</h4>';
-                        content += '<ul style="color: rgba(255, 255, 255, 0.9); padding-left: 1.5rem;">';
+                        content += `<div class="ai-section" style="background: rgba(16, 185, 129, 0.05); border-left: 4px solid var(--success-green);">
+                            <h4><i class="fas fa-heart"></i> Lifestyle Recommendations</h4>
+                            <ul style="color: var(--neutral-700); padding-left: 1.5rem; margin: 0;">`;
                         data.lifestyle_advice.forEach(advice => {
-                            content += `<li style="margin-bottom: 0.5rem;">${advice}</li>`;
+                            content += `<li style="margin-bottom: 0.75rem; line-height: 1.5;">${advice}</li>`;
                         });
-                        content += '</ul>';
+                        content += '</ul></div>';
                     }
                     
                     // Fallback if no structured data - show all available data
                     if (!data.primary_diagnosis && !data.recommended_tests) {
                         if (data.raw_ai_response) {
-                            content += '<h4 style="color: var(--cyber-green); margin: 1.5rem 0 1rem 0;">🤖 AI Analysis:</h4>';
-                            content += `<div style="background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 1rem; color: white; line-height: 1.6;">${data.raw_ai_response}</div>`;
+                            content += `<div class="ai-section" style="background: var(--neutral-50); border-left: 4px solid var(--primary-blue);">
+                                <h4><i class="fas fa-robot"></i> AI Analysis</h4>
+                                <div style="background: white; padding: 1.5rem; border-radius: 8px; color: var(--neutral-700); line-height: 1.6; border: 1px solid var(--neutral-200);">${data.raw_ai_response}</div>
+                            </div>`;
                         } else {
                             // Show all available data as formatted JSON
-                            content += '<h4 style="color: var(--cyber-green); margin: 1.5rem 0 1rem 0;">🤖 AI Analysis (Debug):</h4>';
-                            content += `<div style="background: rgba(0, 0, 0, 0.6); padding: 1.5rem; border-radius: 1rem; color: white; font-family: 'JetBrains Mono', monospace; white-space: pre-wrap; font-size: 0.9rem;">${JSON.stringify(data, null, 2)}</div>`;
+                            content += `<div class="ai-section" style="background: var(--neutral-50); border-left: 4px solid var(--neutral-400);">
+                                <h4><i class="fas fa-code"></i> Raw AI Response (Debug)</h4>
+                                <div style="background: var(--neutral-800); padding: 1.5rem; border-radius: 8px; color: var(--neutral-100); font-family: 'Inter', monospace; white-space: pre-wrap; font-size: 0.75rem; overflow-x: auto;">${JSON.stringify(data, null, 2)}</div>
+                            </div>`;
                         }
                     }
                     
@@ -546,9 +1436,13 @@
                 .catch(error => {
                     console.error('Error:', error);
                     aiContent.innerHTML = `
-                        <div style="color: #ff4444; text-align: center; padding: 2rem;">
-                            <p>❌ Error loading AI consultation</p>
-                            <p style="font-size: 0.9rem; opacity: 0.8;">Please try again or check the server logs.</p>
+                        <div style="text-align: center; padding: 3rem; background: rgba(239, 68, 68, 0.05); border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <div style="color: var(--error-red); font-size: 3rem; margin-bottom: 1rem;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <h4 style="color: var(--error-red); margin-bottom: 1rem;">AI Consultation Error</h4>
+                            <p style="color: var(--neutral-600); margin-bottom: 0.5rem;">Unable to load AI consultation at this time.</p>
+                            <p style="color: var(--neutral-500); font-size: 0.875rem;">Please try again or contact support if the issue persists.</p>
                         </div>
                     `;
                 });
@@ -570,7 +1464,19 @@
             aiDiv.classList.remove('hidden');
             
             fetch(`/clinical_insights/${patientId}`)
-                .then(response => response.json())
+                .then(async (response) => {
+                    if (!response.ok) {
+                        let errText = '';
+                        try {
+                            const errJson = await response.json();
+                            errText = errJson.error || JSON.stringify(errJson);
+                        } catch(e) {
+                            errText = `${response.status} ${response.statusText}`;
+                        }
+                        throw new Error(errText);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     console.log('Clinical Insights Response:', data);
                     
@@ -607,14 +1513,514 @@
                     aiContent.innerHTML = content;
                 })
                 .catch(error => {
-                    console.error('Error:', error);
+                    console.error('Clinical insights error:', error);
                     aiContent.innerHTML = `
                         <div style="color: #ff4444; text-align: center; padding: 2rem;">
                             <p>❌ Error loading clinical insights</p>
-                            <p style="font-size: 0.9rem; opacity: 0.8;">Please try again or check the server logs.</p>
+                            <p style="font-size: 0.9rem; opacity: 0.8;">${String(error)}</p>
                         </div>
                     `;
                 });
+        }
+
+        // ------------------- Video Call & Scheduling Functions -------------------
+        
+        // Load video call requests
+        async function loadVideoCallRequests() {
+            try {
+                const response = await fetch('/api/get_video_call_requests');
+                
+                // Check if response is OK
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Server returned HTML instead of JSON. Make sure Flask server is running at http://127.0.0.1:5000');
+                }
+                
+                const result = await response.json();
+                
+                const listDiv = document.getElementById('videoCallRequestsList');
+                const badge = document.getElementById('notificationBadge');
+                const countSpan = document.getElementById('notificationCount');
+                
+                if (result.status === 'success' && result.requests.length > 0) {
+                    // Update notification badge
+                    if (result.unread_count > 0) {
+                        badge.style.display = 'inline-flex';
+                        countSpan.textContent = result.unread_count;
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                    
+                    // Render requests
+                    const requestsHTML = result.requests.map(req => `
+                        <div style="background: ${req.read ? 'var(--neutral-50)' : 'rgba(30, 64, 175, 0.05)'}; border: 1px solid var(--neutral-200); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; ${!req.read ? 'border-left: 4px solid var(--primary-blue);' : ''}">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                                <div>
+                                    <h4 style="font-weight: 600; color: var(--neutral-900); margin-bottom: 0.25rem;">
+                                        <i class="fas fa-user" style="color: var(--primary-blue);"></i>
+                                        ${req.patient_name}
+                                    </h4>
+                                    <p style="font-size: 0.75rem; color: var(--neutral-600);">ID: ${req.patient_id}</p>
+                                </div>
+                                ${!req.read ? '<span class="status-indicator status-critical"><i class="fas fa-circle"></i> New</span>' : ''}
+                            </div>
+                            <div style="background: white; padding: 0.75rem; border-radius: 6px; margin-bottom: 0.75rem;">
+                                <div style="font-size: 0.75rem; color: var(--neutral-500); font-weight: 600; margin-bottom: 0.25rem;">REASON</div>
+                                <div style="color: var(--neutral-700);">${req.reason}</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--neutral-500); margin-bottom: 0.75rem;">
+                                <span><i class="fas fa-clock"></i> ${new Date(req.requested_at).toLocaleString()}</span>
+                                <span>Request ID: ${req.id}</span>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button onclick="scheduleFromRequest('${req.patient_id}', '${req.patient_name}')" class="btn btn-primary" style="flex: 1; padding: 0.5rem 1rem; font-size: 0.875rem;">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    Schedule
+                                </button>
+                                <button onclick="markRequestAsRead('${req.id}')" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
+                                    <i class="fas fa-check"></i>
+                                    Mark Read
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    listDiv.innerHTML = requestsHTML;
+                } else {
+                    badge.style.display = 'none';
+                    listDiv.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; color: var(--neutral-500);">
+                            <i class="fas fa-video" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                            <p>No pending video call requests</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading video call requests:', error);
+                document.getElementById('videoCallRequestsList').innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--error-red);">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Error loading requests</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Mark request as read
+        async function markRequestAsRead(requestId) {
+            try {
+                await fetch(`/api/mark_request_read/${requestId}`, { method: 'POST' });
+                loadVideoCallRequests();
+            } catch (error) {
+                console.error('Error marking request as read:', error);
+            }
+        }
+        
+        // Schedule from request
+        function scheduleFromRequest(patientId, patientName) {
+            document.getElementById('schedulePatientId').value = patientId;
+            document.getElementById('scheduleForm').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Handle schedule form submission
+        document.getElementById('scheduleForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scheduling...';
+            submitBtn.disabled = true;
+            
+            const formData = {
+                patient_id: document.getElementById('schedulePatientId').value,
+                patient_name: 'Patient ' + document.getElementById('schedulePatientId').value,
+                doctor_name: 'Dr. Smith',
+                appointment_date: document.getElementById('scheduleDate').value,
+                appointment_time: document.getElementById('scheduleTime').value,
+                duration: document.getElementById('scheduleDuration').value,
+                notes: document.getElementById('scheduleNotes').value
+            };
+            
+            try {
+                const response = await fetch('/api/schedule_appointment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    alert('✅ Appointment Scheduled Successfully!\n\nAppointment ID: ' + result.appointment.id + '\nPatient will be notified.');
+                    
+                    // Reset form
+                    e.target.reset();
+                    
+                    // Reload appointments
+                    loadAllAppointments();
+                    
+                    submitBtn.innerHTML = '<i class="fas fa-check"></i> Scheduled!';
+                    submitBtn.style.background = 'linear-gradient(135deg, var(--primary-green), #047857)';
+                    
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.style.background = 'linear-gradient(135deg, var(--primary-blue), var(--primary-teal))';
+                        submitBtn.disabled = false;
+                    }, 2000);
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // Load all appointments
+        async function loadAllAppointments() {
+            const listDiv = document.getElementById('allAppointmentsList');
+            listDiv.innerHTML = `
+                <div style="text-align: center; padding: 2rem; color: var(--neutral-500);">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i>
+                    <p>Loading appointments...</p>
+                </div>
+            `;
+            
+            try {
+                const response = await fetch('/api/get_all_appointments');
+                
+                // Check if response is OK
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Server returned HTML instead of JSON. Make sure Flask server is running.');
+                }
+                
+                const result = await response.json();
+                
+                if (result.status === 'success' && result.appointments.length > 0) {
+                    const appointmentsHTML = result.appointments.map(apt => {
+                        const statusColors = {
+                            'scheduled': 'var(--primary-blue)',
+                            'completed': 'var(--primary-green)',
+                            'cancelled': 'var(--neutral-500)'
+                        };
+                        const statusIcons = {
+                            'scheduled': 'calendar-check',
+                            'completed': 'check-circle',
+                            'cancelled': 'times-circle'
+                        };
+                        
+                        return `
+                            <div style="background: white; border: 1px solid var(--neutral-200); border-radius: 12px; padding: 1.5rem; border-left: 4px solid ${statusColors[apt.status] || 'var(--neutral-400)'};">
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                                    <div>
+                                        <h3 style="font-family: 'Poppins', sans-serif; font-size: 1.125rem; font-weight: 600; color: var(--neutral-900); margin-bottom: 0.25rem;">
+                                            <i class="fas fa-user" style="color: var(--primary-blue);"></i>
+                                            ${apt.patient_name}
+                                        </h3>
+                                        <p style="font-size: 0.875rem; color: var(--neutral-600);">Patient ID: ${apt.patient_id} | Appointment ID: ${apt.id}</p>
+                                    </div>
+                                    <span style="padding: 0.25rem 0.75rem; background: ${statusColors[apt.status] || 'var(--neutral-400)'}; color: white; border-radius: 12px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">
+                                        <i class="fas fa-${statusIcons[apt.status] || 'circle'}"></i>
+                                        ${apt.status}
+                                    </span>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                    <div>
+                                        <div style="font-size: 0.75rem; color: var(--neutral-500); font-weight: 600; margin-bottom: 0.25rem;">DATE</div>
+                                        <div style="color: var(--neutral-900); font-weight: 500;">
+                                            <i class="fas fa-calendar"></i>
+                                            ${apt.appointment_date}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 0.75rem; color: var(--neutral-500); font-weight: 600; margin-bottom: 0.25rem;">TIME</div>
+                                        <div style="color: var(--neutral-900); font-weight: 500;">
+                                            <i class="fas fa-clock"></i>
+                                            ${apt.appointment_time}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 0.75rem; color: var(--neutral-500); font-weight: 600; margin-bottom: 0.25rem;">DURATION</div>
+                                        <div style="color: var(--neutral-900); font-weight: 500;">
+                                            <i class="fas fa-hourglass-half"></i>
+                                            ${apt.duration} min
+                                        </div>
+                                    </div>
+                                </div>
+                                ${apt.notes ? `
+                                    <div style="background: var(--neutral-50); padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem;">
+                                        <div style="font-size: 0.75rem; color: var(--neutral-500); font-weight: 600; margin-bottom: 0.25rem;">NOTES</div>
+                                        <div style="color: var(--neutral-700); font-size: 0.875rem;">${apt.notes}</div>
+                                    </div>
+                                ` : ''}
+                                ${apt.status === 'scheduled' ? `
+                                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                                        <button onclick="updateAppointmentStatus('${apt.id}', 'completed')" class="btn btn-primary" style="flex: 1; padding: 0.5rem 1rem; font-size: 0.875rem; background: linear-gradient(135deg, var(--primary-green), #047857);">
+                                            <i class="fas fa-check"></i>
+                                            Mark Complete
+                                        </button>
+                                        <button onclick="updateAppointmentStatus('${apt.id}', 'cancelled')" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
+                                            <i class="fas fa-times"></i>
+                                            Cancel
+                                        </button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }).join('');
+                    
+                    listDiv.innerHTML = appointmentsHTML;
+                } else {
+                    listDiv.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; color: var(--neutral-500);">
+                            <i class="fas fa-calendar-times" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                            <p>No appointments scheduled</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading appointments:', error);
+                listDiv.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--error-red);">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Error loading appointments</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Update appointment status
+        async function updateAppointmentStatus(appointmentId, newStatus) {
+            if (!confirm(`Are you sure you want to mark this appointment as ${newStatus}?`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/update_appointment_status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        appointment_id: appointmentId,
+                        status: newStatus
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    alert('✅ Appointment status updated successfully!');
+                    loadAllAppointments();
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            }
+        }
+        
+        // Auto-load video call requests on page load
+        window.addEventListener('load', function() {
+            loadVideoCallRequests();
+            // Auto-refresh every 30 seconds
+            setInterval(loadVideoCallRequests, 30000);
+            // Add initial medicine field
+            addMedicineField();
+        });
+
+        // ------------------- Prescription Functions -------------------
+        let medicineCount = 0;
+
+        function addMedicineField() {
+            medicineCount++;
+            const container = document.getElementById('medicinesContainer');
+            const medicineDiv = document.createElement('div');
+            medicineDiv.id = `medicine-${medicineCount}`;
+            medicineDiv.style.cssText = 'background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--neutral-200);';
+            
+            medicineDiv.innerHTML = `
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 0.75rem;">
+                    <h5 style="margin: 0; color: var(--neutral-900);">Medicine #${medicineCount}</h5>
+                    ${medicineCount > 1 ? `<button type="button" onclick="removeMedicine(${medicineCount})" style="background: var(--error-red); color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem;"><i class="fas fa-times"></i> Remove</button>` : ''}
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                    <div>
+                        <label style="font-size: 0.875rem; font-weight: 600; color: var(--neutral-700); display: block; margin-bottom: 0.25rem;">Medicine Name *</label>
+                        <input type="text" class="medicine-name form-input" required placeholder="e.g., Amoxicillin" style="width: 100%;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.875rem; font-weight: 600; color: var(--neutral-700); display: block; margin-bottom: 0.25rem;">Dosage *</label>
+                        <input type="text" class="medicine-dosage form-input" required placeholder="e.g., 500mg" style="width: 100%;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.875rem; font-weight: 600; color: var(--neutral-700); display: block; margin-bottom: 0.25rem;">Frequency *</label>
+                        <input type="text" class="medicine-frequency form-input" required placeholder="e.g., 3 times daily" style="width: 100%;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.875rem; font-weight: 600; color: var(--neutral-700); display: block; margin-bottom: 0.25rem;">Duration *</label>
+                        <input type="text" class="medicine-duration form-input" required placeholder="e.g., 7 days" style="width: 100%;">
+                    </div>
+                    <div style="grid-column: 1 / -1;">
+                        <label style="font-size: 0.875rem; font-weight: 600; color: var(--neutral-700); display: block; margin-bottom: 0.25rem;">Instructions</label>
+                        <input type="text" class="medicine-instructions form-input" placeholder="e.g., Take after meals" style="width: 100%;">
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(medicineDiv);
+        }
+
+        function removeMedicine(id) {
+            const element = document.getElementById(`medicine-${id}`);
+            if (element) {
+                element.remove();
+            }
+        }
+
+        // Handle prescription form submission
+        document.getElementById('prescriptionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const patientId = document.getElementById('rxPatientId').value.trim();
+            const priority = document.getElementById('rxPriority').value;
+            const notes = document.getElementById('rxNotes').value.trim();
+            
+            // Collect all medicines
+            const medicines = [];
+            const medicineContainers = document.querySelectorAll('#medicinesContainer > div');
+            
+            medicineContainers.forEach(container => {
+                const name = container.querySelector('.medicine-name').value.trim();
+                const dosage = container.querySelector('.medicine-dosage').value.trim();
+                const frequency = container.querySelector('.medicine-frequency').value.trim();
+                const duration = container.querySelector('.medicine-duration').value.trim();
+                const instructions = container.querySelector('.medicine-instructions').value.trim();
+                
+                if (name && dosage && frequency && duration) {
+                    medicines.push({
+                        name,
+                        dosage,
+                        frequency,
+                        duration,
+                        instructions
+                    });
+                }
+            });
+            
+            if (medicines.length === 0) {
+                alert('Please add at least one medicine!');
+                return;
+            }
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/send_prescription', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        patient_id: patientId,
+                        patient_name: 'Patient ' + patientId,
+                        doctor_name: 'Dr. Smith',
+                        medicines: medicines,
+                        notes: notes,
+                        priority: priority
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    alert(`✅ Prescription Sent to Pharmacy!\n\nPrescription ID: ${result.prescription_id}\n\nThe pharmacy will prepare the medicines and deliver them to the patient.`);
+                    
+                    // Reset form
+                    e.target.reset();
+                    document.getElementById('medicinesContainer').innerHTML = '';
+                    medicineCount = 0;
+                    addMedicineField();
+                    
+                    submitBtn.innerHTML = '<i class="fas fa-check"></i> Sent!';
+                    submitBtn.style.background = 'linear-gradient(135deg, var(--primary-green), #047857)';
+                    
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.style.background = 'linear-gradient(135deg, var(--primary-blue), var(--primary-teal))';
+                        submitBtn.disabled = false;
+                    }, 2000);
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Send message to pharmacy
+        async function sendPharmacyMessage() {
+            const message = prompt('Enter message to pharmacy:', '');
+            if (!message) return;
+            
+            // Ask if message is related to a prescription
+            const linkToPrescription = confirm('Is this message related to a specific prescription?\n\nClick OK to link to a prescription, or Cancel to send a general message.');
+            
+            let prescriptionId = null;
+            if (linkToPrescription) {
+                prescriptionId = prompt('Enter PRESCRIPTION ID (not Patient ID!):\n\nExamples:\n✅ RX0001\n✅ RX0002\n✅ RX0003\n\n❌ NOT: P12345 (Patient ID)', '');
+                if (!prescriptionId) {
+                    alert('❌ Prescription ID is required when linking to a prescription.');
+                    return;
+                }
+                
+                // Validate format
+                if (!prescriptionId.toUpperCase().startsWith('RX')) {
+                    const confirm = window.confirm(`⚠️ Warning: "${prescriptionId}" doesn't look like a Prescription ID.\n\nPrescription IDs start with "RX" (e.g., RX0001)\nPatient IDs start with "P" (e.g., P12345)\n\nDid you mean to enter a Prescription ID?\n\nClick OK to continue anyway, or Cancel to re-enter.`);
+                    if (!confirm) {
+                        return;
+                    }
+                }
+            }
+            
+            try {
+                const response = await fetch('/api/send_pharmacy_message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        from_name: 'Dr. Smith',
+                        message: message,
+                        prescription_id: prescriptionId
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    if (prescriptionId) {
+                        alert(`✅ Message sent to pharmacy and linked to ${prescriptionId}!`);
+                    } else {
+                        alert('✅ Message sent to pharmacy!');
+                    }
+                } else {
+                    alert('❌ Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            }
         }
     </script>
 </body>
